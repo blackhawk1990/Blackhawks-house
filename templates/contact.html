@@ -1,0 +1,173 @@
+<script type="text/javascript">
+    
+    //regex dla adresu e-mail
+    var emailRegex = '^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$';
+    //regex dla numeru telefonu
+    var phoneNumberRegex = '[0-9-()+]{3,20}';
+    //zmienna sprawdzajaca czy wszystko jest prawidlowo wypelnione
+    var everythingCorrect = true;
+    
+    $(function(){
+        //wyslanie formularza
+        $('#contact-form').submit(function(){
+            
+            $('.errorText').text('');
+            
+            //warunek dla e-maila
+            if(!$('#contact-form #email').val().match(emailRegex))
+            {
+                $('#contact-form #email').siblings('.errorText').text('Podaj prawidłowy e-mail! (np. loremipsum@wp.pl)');
+                everythingCorrect = false;
+            }
+            
+            //numer telefonu niepusty
+            if($('#contact-form #phoneNumber').val() != '')
+            {
+                //warunek dla numeru telefonu
+                if(!$('#contact-form #phoneNumber').val().match(phoneNumberRegex))
+                {
+                    $('#contact-form #phoneNumber').siblings('.errorText').text('Podaj prawidłowy numer telefonu!');
+                    everythingCorrect = false;
+                }
+            }
+            
+            //warunki spelnione
+            if($('.required').filter(function() { return this.value.match('^$') }).length == 0 && everythingCorrect)
+            {
+                //jezeli pusta wiadomosc
+                if($('#contact-form textarea').val() == '')
+                {
+                    alert('Nie możesz wysłać pustej wiadomości!');
+                }
+                else
+                {
+                    //wszystkie warunki walidacji spelnione
+                    return true;
+                }
+            }
+            else //warunki walidacji niespelnione
+            {
+                $('.required').each(function(){
+
+                    if($(this).val() == '')
+                    {
+                        $('.required').filter(function() {
+                            return this.value.match('^$');
+                        }).siblings('.errorText').text('Wypełnij pole!');
+                    }
+
+                });
+            }
+            
+            //powrot do stanu wyjsciowego
+            everythingCorrect = true;
+            
+            return false;
+        });
+        
+    });
+    
+</script>
+
+<div id="body">
+    <div class="content">
+        <img src="images/telephone.jpg" alt="">
+        <h2>skontaktuj się ze mną</h2>
+        <form id="contact-form" action="{$contact-form-action}" method="post">
+            <label for="firstName"> <span>imię*</span>
+                <input type="text" name="first" id="firstName" class="required">
+                <span class="errorText"></span>
+            </label>
+            <label for="lastName"> <span>nazwisko*</span>
+                <input type="text" name="last" id="lastName" class="required">
+                <span class="errorText"></span>
+            </label>
+            <label for="email"> <span>e-mail*</span>
+                <input type="text" name="email" id="email" class="required">
+                <span class="errorText"></span>
+            </label>
+            <label for="phoneNumber"> <span>telefon</span>
+                <input type="text" name="phone" id="phoneNumber">
+                <span class="errorText"></span>
+            </label>
+            <label for="subject"> <span>temat*</span>
+                <input type="text" name="subject" id="subject" class="required">
+                <span class="errorText"></span>
+            </label>
+            <label for="message"> <span>wiadomość</span>
+                <textarea name="" id="message" cols="30" rows="10"></textarea>
+            </label>
+            <input type="submit" value="" id="submit">
+        </form>
+    </div>
+    <div class="sidebar">
+        <h3>kontakt</h3>
+        <ul>
+            <!--				<li>
+                                                    <span class="address">adres</span>
+                                                    <ul>
+                                                            <li>
+                                                                    Illumelabs
+                                                            </li>
+                                                            <li>
+                                                                    Diagnostic Center
+                                                            </li>
+                                                            <li>
+                                                                    3952 Glen Falls Road
+                                                            </li>
+                                                            <li>
+                                                                    Wayne, PA 19088
+                                                            </li>
+                                                    </ul>
+                                            </li>-->
+            <li>
+                <span class="phone">telefon</span>
+                <ul>
+                    <li>
+                        501-096-778
+                    </li>
+                </ul>
+            </li>
+            <li>
+                <span class="email">e-mail</span>
+                <ul>
+                    <li>
+                        <a href="mailto:ltraczewski@gmail.com">ltraczewski@gmail.com</a>
+                    </li>
+                </ul>
+            </li>
+            <!--				<li>
+                                                    <span class="twitter">twitter</span>
+                                                    <ul>
+                                                            <li>
+                                                                    <a href="http://freewebsitetemplates.com/go/twitter/">@mattovolumeone</a>
+                                                            </li>
+                                                    </ul>
+                                            </li>-->
+            <li>
+                <span class="facebook">facebook</span>
+                <ul>
+                    <li>
+                        <a href="http://www.facebook.com/blackhawkprogrammer" target="_blank">facebook/blackhawkprogrammer</a>
+                    </li>
+                </ul>
+            </li>
+            <li>
+                <span class="googleplus">google +</span>
+                <ul>
+                    <li>
+                        <a href="https://plus.google.com/u/0/100246819469400258433" target="_blank">plus.google.com</a>
+                    </li>
+                </ul>
+            </li>
+            <li>
+                <span class="linkedin">linkedin</span>
+                <ul>
+                    <li>
+                        <a href="http://www.linkedin.com/profile/view?id=181259758" target="_blank">linkedin.com</a>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+</div>

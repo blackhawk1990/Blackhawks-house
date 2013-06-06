@@ -1,0 +1,45 @@
+<!DOCTYPE HTML>
+
+<html lang = "pl">
+<head>
+	<meta charset="{$charset}">
+	<title>{$title}</title>
+        
+        <meta name = "description" content = "Strona domowa Łukasza Traczewskiego - programisty, webmastera freelancera" />
+        <meta name = "keywords" content = "blackhawk,Blackhawk,Łukasz Traczewski,Łukasza,Traczewskiego,strona domowa,homepage,webmaster,webmastera,freelancer,freelancera,programista,programisty,programmer,Olsztyn,olsztyn,Nidzica,nidzica" />
+        <meta name = "robots" content = "noodp" />
+        
+        <!--************************geotagi***************************************-->
+        <meta name = "geo.placename" content = "Olsztyn, Poland" />
+        <meta name = "geo.region" content="pl" />
+	
+	<link rel="stylesheet" href="styles/default.css" type="text/css">
+	<link rel ="shortcut icon" href ="styles/img/favicon.ico" type ="image/x-icon" />
+        
+        {$common-head-content}
+</head>
+<body>
+	<div id="header">
+		<a href="{$main-page}" class="logo">
+			<img class="logo-image" src="images/blackhawk_logo_black.png" alt="" />
+			<div class="header-title"><span class="black-text">Blackhawk's</span> <span class="white-text">House</span></div>
+		</a>
+		<ul>
+			{$up-menu}
+		</ul>
+	</div>
+	
+        {$view-content}
+    
+	<div id="footer">
+		<div>
+			<p>
+				<span>{$copyrights}.</span><a href="#" >Terms of Service</a> | <a href="#" >Privacy Policy</a>
+			</p>
+			<ul>
+				{$social-media}
+			</ul>
+		</div>
+	</div>
+</body>
+</html>
