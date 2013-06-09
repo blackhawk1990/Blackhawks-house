@@ -650,9 +650,12 @@ body {
 #body #new-realizations-wrapper
 {
         width: 480px;
+        min-height: 365px;
+        overflow: hidden;
         margin: 40px auto 0 auto;
 }
-#body #contact-form .errorText
+#body #contact-form .errorText,
+#body #add-realization-form .errorText
 {
         width: 190px;
         margin-left: 5px;
@@ -817,7 +820,7 @@ body {
 }
 #new-realizations
 {
-        height: 365px;
+        min-height: 365px;
 }
 #new-realizations h3
 {

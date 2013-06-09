@@ -1,12 +1,13 @@
-<form id="add-realization-form" action="?action=add" method="post">
-    <label for="title"><span>Tytuł*</span><input type="text" id="title" name="title" /></label>
+<form id="add-realization-form">
+    <label for="title"><span>Tytuł*</span><input type="text" id="title" name="title" /><span id="title-error-message" class="errorText"></span></label>
 
-    <label for="editor"><span>Opis*</span></label>
-    <textarea class="ckeditor" name="editor" cols="80" rows="10"></textarea>
+    <label for="editor"><span>Opis*</span><span id="text-error-message" class="errorText"></span></label>
+    <textarea id="text" class="ckeditor" name="text" cols="80" rows="10"></textarea>
 
-    <label for="date"><span>Data wdrożenia*</span><input type="text" id="date" name="date" /></label>
+    <label for="date"><span>Data wdrożenia*</span><input type="text" id="date" name="date" /><span id="date-error-message" class="errorText"></span></label>
 
-    <label id="used-technologies-label" for="usedTechnologies"><span>Użyte technologie*</span><input type="text" id="used-technologies" name="usedTechnologies" /></label><div id="tags"></div>
-
-    <input id="submit" type="submit" value="" />
+    <label id="used-technologies-label" for="usedTechnologies"><span>Użyte technologie*</span><input type="text" id="used-technologies" name="usedTechnologies" /></label><div id="tags"></div><span id="used-technologies-error-message" class="errorText"></span>
+    
+    <input id="used-technologies-hidden" type="hidden" />
+    <input id="submit" type="button" value="" />
 </form>

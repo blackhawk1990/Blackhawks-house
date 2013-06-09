@@ -146,10 +146,16 @@
             //wykasowanie wsz informacji o sesji
             session_unset();
         }
-        else if ($_GET['action'] == 'add')
+        else if ($_GET['action'] == 'add_realization')
         {
-            var_dump($_POST);
-            return true;
+            if(!empty($_POST))
+            {
+                require_once Path::$_main_path . $path->getClassPath() . 'class.Db.php';
+                
+                $oDb = new Db();
+                echo $oDb->saveRow($_POST);
+                exit();
+            }
         }
     }
     /**akcje**/
@@ -180,23 +186,24 @@
         if(!isset($_SESSION['login']))
         {
             //wczytywanie informacji z bazy danych
-            $db = new Db();
+            $oDb = new Db();
+            $oDb->getRealizations();
 
             $i = 0;
 
-            while(($news = $db->_query->fetch_assoc()) != NULL)
+            while(($news = $oDb->_query->fetch_assoc()) != NULL)
             {
                 if($i < $num_of_new_realizations_viewed)
                 {
                     $view->assign['right-col-content'] .= "<li>
-                                                            <h3>" . $news['tytul'] . "</h3>
+                                                            <h3>" . $news['title'] . "</h3>
                                                             <div>
                                                                 <p>
-                                                                    " . $news['zajawka'] . "
+                                                                    " . $news['introduction'] . "
                                                                 </p>
                                                                 <a href=\"?view=realization&id=" . $news['id']  . "\" class=\"more\">więcej</a>
                                                             </div>
-                                                            <img src=\"images/" . $news['obrazek'] . "\" alt=\"\">
+                                                            <img src=\"images/" . $news['image'] . "\" alt=\"\">
                                                           </li>";
                 }
                 $i++;
@@ -217,37 +224,39 @@
             if($_SESSION['role'] == 'admin')
             {   
                 //wczytywanie informacji z bazy danych
-                $db = new Db();
+                $oDb = new Db();
+                $oDb->getRealizations();
 
                 $i = 0;
                 $length = 0;
 
-                while(($news = $db->_query->fetch_assoc()) != NULL)
+                while(($news = $oDb->_query->fetch_assoc()) != NULL)
                 {
                     $length++;
                 }
 
-                $db = new Db();
+                $oDb = new Db();
+                $oDb->getRealizations();
 
                 //wczytanie klasy do przeksztalcenia daty
 
                 require_once Path::$_main_path.$path->getClassPath().'class.Date.php';
 
-                while(($news = $db->_query->fetch_assoc()) != NULL)
+                while(($news = $oDb->_query->fetch_assoc()) != NULL)
                 {
                     if($i < $num_of_new_realizations_viewed)
                     {
-                        $date = new Date('pl', $news['data']);
+                        $date = new Date('pl', $news['date']);
 
                         $view->assign['right-col-content'] .= "<li>
-                                                            <h3>" . $news['tytul'] . "</h3>
+                                                            <h3>" . $news['title'] . "</h3>
                                                             <div>
                                                                 <p>
-                                                                    " . $news['zajawka'] . "
+                                                                    " . $news['introduction'] . "
                                                                 </p>
                                                                 <a href=\"?view=realization&id=" . $news['id']  . "\" class=\"more\">więcej</a>
                                                             </div>
-                                                            <img src=\"images/" . $news['obrazek'] . "\" alt=\"\">
+                                                            <img src=\"images/" . $news['image'] . "\" alt=\"\">
                                                           </li>";
                     }
                     $i++;
@@ -256,37 +265,39 @@
             else //widok dla innych uzytkownikow
             {
                 //wczytywanie informacji z bazy danych
-                $db = new Db();
+                $oDb = new Db();
+                $oDb->getRealizations();
 
                 $i = 0;
                 $length = 0;
 
-                while(($news = $db->_query->fetch_assoc()) != NULL)
+                while(($news = $oDb->_query->fetch_assoc()) != NULL)
                 {
                     $length++;
                 }
 
-                $db = new Db();
+                $oDb = new Db();
+                $oDb->getRealizations();
 
                 //wczytanie klasy do przeksztalcenia daty
 
                 require_once Path::$_main_path.$path->getClassPath().'class.Date.php';
 
-                while(($news = $db->_query->fetch_assoc()) != NULL)
+                while(($news = $oDb->_query->fetch_assoc()) != NULL)
                 {
                     if($i < $num_of_new_realizations_viewed)
                     {
                         $date = new Date('pl', $news['data']);
 
                         $view->assign['right-col-content'] .= "<li>
-                                                            <h3>" . $news['tytul'] . "</h3>
+                                                            <h3>" . $news['title'] . "</h3>
                                                             <div>
                                                                 <p>
-                                                                    " . $news['zajawka'] . "
+                                                                    " . $news['introduction'] . "
                                                                 </p>
                                                                 <a href=\"?view=realization&id=" . $news['id']  . "\" class=\"more\">więcej</a>
                                                             </div>
-                                                            <img src=\"images/" . $news['obrazek'] . "\" alt=\"\">
+                                                            <img src=\"images/" . $news['image'] . "\" alt=\"\">
                                                           </li>";
                     }
                     $i++;
@@ -342,28 +353,30 @@
         $new_realizations_view->assign['new-realizations-content'] = "";
         
         //wczytywanie informacji z bazy danych
-        $db = new Db();
+        $oDb = new Db();
+        $oDb->getRealizations();
 
         $i = 0;
         $length = 0;
 
-        while (($news = $db->_query->fetch_assoc()) != NULL) {
+        while (($news = $oDb->_query->fetch_assoc()) != NULL) {
             $length++;
         }
+        
+        $oDb = new Db();
+        $oDb->getRealizations();
 
-        $db = new Db();
-
-        while (($new_realization = $db->_query->fetch_assoc()) != NULL) {
+        while (($new_realization = $oDb->_query->fetch_assoc()) != NULL) {
             if ($i < 4) {
                 $new_realizations_view->assign['new-realizations-content'] .= "<li>
-                                                                <h3>" . $new_realization['tytul'] . "</h3>
+                                                                <h3>" . $new_realization['title'] . "</h3>
                                                                 <div>
                                                                     <p>
-                                                                        " . $new_realization['zajawka'] . "
+                                                                        " . $new_realization['introduction'] . "
                                                                     </p>
                                                                     <a href=\"?view=realization&id=" . $new_realization['id'] . "\" class=\"more\">więcej</a>
                                                                 </div>
-                                                                <img src=\"images/" . $new_realization['obrazek'] . "\" alt=\"\">
+                                                                <img src=\"images/" . $new_realization['image'] . "\" alt=\"\">
                                                               </li>";
             }
             $i++;
@@ -371,21 +384,21 @@
         
         if(isset($_GET['id']) && $_GET['id'] != "")
         {
-            $db = new Db();
+            $oDb = new Db();
             //wczytywanie danych realizacji
-            $realization_data = $db->getRealizationById($_GET['id']);
+            $realization_data = $oDb->getRealizationById($_GET['id']);
             $aRealization = $realization_data->fetch_assoc();
             
             //jesli sa jakies realizacje
             if($aRealization != null)
             {
-                $oDate = new Date('pl', $aRealization['data']);
+                $oDate = new Date('pl', $aRealization['date']);
 
-                $view->assign['realization-title'] = $aRealization['tytul'];
-                $view->assign['realization-text'] = $aRealization['tekst'];
+                $view->assign['realization-title'] = $aRealization['title'];
+                $view->assign['realization-text'] = $aRealization['text'];
                 $view->assign['realization-tech'] = $aRealization['used_technologies'];
                 $view->assign['realization-date'] = $oDate->getDate();
-                $view->assign['realization-image'] = $aRealization['obrazek'];
+                $view->assign['realization-image'] = $aRealization['image'];
                 $view->assign['realization-url'] = $aRealization['url'] != '' ? '<a href="' . $aRealization['url'] . '" target="_blank">' . $aRealization['url'] . '</a>' : 'brak';
                 
                 //dodatkowa tresc ponizej opisu realizacji(nowe realizacje)
@@ -422,19 +435,20 @@
         $view->assign['realizations'] = "";
         
         //wczytywanie informacji z bazy danych
-        $db = new Db();
+        $oDb = new Db();
+        $oDb->getRealizations();
         
         $i = 0;
-        while(($aRealizations = $db->_query->fetch_assoc()) != NULL)
+        while(($aRealizations = $oDb->_query->fetch_assoc()) != NULL)
         {
-            $date = new Date('pl', $aRealizations['data']);
+            $date = new Date('pl', $aRealizations['date']);
 
             $view->assign['realizations'] .= "<div class=\"realization\">
                                                 <div class=\"realization-content\">
-                                                    <h1>" . $aRealizations['tytul'] . "</h1>
+                                                    <h1>" . $aRealizations['title'] . "</h1>
 
                                                     <p>
-                                                        " . $aRealizations['tekst'] . "
+                                                        " . $aRealizations['text'] . "
                                                     </p>
 
                                                     <p>
@@ -445,7 +459,7 @@
 
                                                     <h4>Data wykonania: " . $date->getDate() . "</h4>
                                                 </div>
-                                                <img src=\"images/" . $aRealizations['obrazek'] . "\" alt=\"\" />
+                                                <img src=\"images/" . $aRealizations['image'] . "\" alt=\"\" />
                                             </div>";
             
             $i++;

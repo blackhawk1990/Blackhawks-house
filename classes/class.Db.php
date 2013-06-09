@@ -40,11 +40,11 @@
                 @$this -> query ($this -> _Hnd, 'SET NAMES utf8');
                 @$this -> query ($this -> _Hnd, "
                     CREATE TABLE IF NOT EXISTS _realizations(`id` INT( 5 ) NOT NULL AUTO_INCREMENT PRIMARY KEY ,
-                    `tytul` VARCHAR( 22 ) NOT NULL ,
-                    `tekst` TEXT NOT NULL ,
-                    `data` VARCHAR( 20 ) NOT NULL ,
-                    `zajawka` VARCHAR( 60 ) NOT NULL ,
-                    `obrazek` VARCHAR ( 60 ) NOT NULL ,
+                    `title` VARCHAR( 22 ) NOT NULL ,
+                    `text` TEXT NOT NULL ,
+                    `date` VARCHAR( 20 ) NOT NULL ,
+                    `introduction` VARCHAR( 60 ) NOT NULL ,
+                    `image` VARCHAR ( 60 ) NOT NULL ,
                     `url` VARCHAR ( 60 ),
                     `used_technologies` VARCHAR ( 60 ) NOT NULL
                     ) ENGINE = INNODB DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci");
@@ -94,12 +94,57 @@
             $this->_query = @$this->query($this->_Hnd, 'SELECT * FROM _users');
         }
         
+        public function getRealizations()
+        {
+            return $this->_query = @$this->query($this->_Hnd, 'SELECT * FROM ' . $this->_table . ' ORDER BY `date` DESC');
+        }
+        
         public function getRealizationById($id = null)
         {
             if($id != null)
             {
-                return $this->_query = @$this->query($this->_Hnd, 'SELECT tytul, tekst, data, url, obrazek, used_technologies FROM ' . $this->_table . ' WHERE id = ' . $id);
+                return $this->_query = @$this->query($this->_Hnd, 'SELECT * FROM ' . $this->_table . ' WHERE id = ' . $id);
             }
+        }
+        
+        public function saveRow($aData)
+        {
+            $aColumnNames = array();
+            $aDataToInsert = array();
+            $i = 0;
+            
+            foreach($aData as $sColumnName => $sColumnValue)
+            {
+                $aColumnNames[$i] = $sColumnName;
+                $aDataToInsert[$sColumnName] = $sColumnValue;
+                $i++;
+            }
+            
+            $sQuery = "INSERT INTO " . $this->_table . '(';
+            $sValuesQueryPart = " VALUES(";
+            $iColumnNumber = count($aColumnNames);
+            $i = 1;
+            
+            foreach($aColumnNames as $sColumnName)
+            {
+                $sQuery .= "`" . $sColumnName . "`";
+                if(!($iColumnNumber == $i))
+                {
+                    $sQuery .= ", ";
+                }
+                
+                $sValuesQueryPart .= "'" . $aDataToInsert[$sColumnName] . "'";
+                if(!($iColumnNumber == $i))
+                {
+                    $sValuesQueryPart .= ", ";
+                }
+                
+                $i++;
+            }
+            
+            $sQuery .= ")" . $sValuesQueryPart . ");";
+            
+            return $this->query($this->_Hnd, $sQuery);
         }
     }
 
