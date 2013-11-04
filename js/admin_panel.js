@@ -1,5 +1,7 @@
 $(function(){
     
+    var uploadPath = $('#add-realization-form #file-upload-path').val();
+    
     $('#body .content .admin-option-content').not('.admin-option-content:eq(0)').hide();
     
     $('#admin-menu li a').click(function(e){
@@ -55,6 +57,28 @@ $(function(){
         
     });
     
+    //file upload
+    $('#file').uploadify({
+        'uploader': './js/ui/uploadify/uploadify.swf',
+        'script': './scripts/fileUpload.php',
+        'cancelImg': './js/ui/uploadify/cancel.png',
+        'folder': uploadPath,
+        'auto': false,
+        'multi': false,
+        'removeCompleted': false,
+        'queueID': 'file-queue',
+        'onComplete': function(event, data, fileObj) 
+        {
+            var title = $('#title').val();
+            var image = fileObj.name;
+            var text = $('#text').val();
+            var date = $('#date').val();
+            var used_technologies = $('#used-technologies-hidden').val().replace(",", ", ");
+            
+            addRealization(title, image, text, date, used_technologies);
+        } 
+    });
+    
     //wysyłanie formatki dodawania realizacji
     $('#add-realization-form #submit').live("click", function(){
         for ( instance in CKEDITOR.instances )
@@ -62,41 +86,14 @@ $(function(){
         
         //kasowanie bledow
         $('#title-error-message').text('');
+        $('#file-error-message').text('');
         $('#text-error-message').text('');
         $('#date-error-message').text('');
         $('#used-technologies-error-message').text('');
         
         if($('#title').val() != '' && $('#text').val() != '' && $('#date').val() != '' && $('#used-technologies-hidden').val() != '')
-        {
-            $.post("index.php?action=add_realization", { 
-                title: $('#title').val(),
-                text: $('#text').val(),
-                date: $('#date').val(),
-                used_technologies: $('#used-technologies-hidden').val().replace(",", ", ")
-            }, function(resp){
-                if(resp)
-                {
-                    $('body').append('<div id="dialog-wrapper" title="Dodanie realizacji">Pomyślnie dodano realizację!</div>');
-                    
-                    $('#dialog-wrapper').dialog({
-       
-                        'modal' : true,
-                        'autoOpen' : true,
-                        'width' : 500,
-                        'buttons': [ { text: "Ok", click: function() { $('#dialog-wrapper').remove(); } } ],
-                        close : function( event, ui ){
-
-                            $('#dialog-wrapper').remove();
-
-                        }
-
-                    });
-                }
-                else
-                {
-                    //dodac pola do bledow w formatce i komunikat bledu tutaj!!!!!!!!!!!!!!!!!
-                }
-            });
+        {   
+            $('#file').uploadifyUpload();
         }
         else
         {
@@ -124,3 +121,37 @@ $(function(){
     });
     
 });
+
+function addRealization(title, image, text, date, used_technologies)
+{
+    $.post("index.php?action=add_realization", { 
+        title: title,
+        image: image,
+        text: text,
+        date: date,
+        used_technologies: used_technologies
+    }, function(resp){
+        if(resp)
+        {
+            $('body').append('<div id="dialog-wrapper" title="Dodanie realizacji">Pomyślnie dodano realizację!</div>');
+
+            $('#dialog-wrapper').dialog({
+
+                'modal' : true,
+                'autoOpen' : true,
+                'width' : 500,
+                'buttons': [ { text: "Ok", click: function() { $('#dialog-wrapper').remove(); } } ],
+                close : function( event, ui ){
+
+                    $('#dialog-wrapper').remove();
+
+                }
+
+            });
+        }
+        else
+        {
+            //dodac pola do bledow w formatce i komunikat bledu tutaj!!!!!!!!!!!!!!!!!
+        }
+    });
+}

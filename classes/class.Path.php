@@ -1,12 +1,14 @@
 <?php
     class Path
     {
-        public static $_main_path = "./";
-        private $_class_path = "classes/";
-        private $_styles_path = "styles/";
-        private $_includes_path = "includes/";
-        private $_layouts_path = "layouts/";
-        private $_js_scripts_path = "js/";
+        public static $_main_path = './';
+        private $_class_path = 'classes/';
+        private $_styles_path = 'styles/';
+        private $_includes_path = 'includes/';
+        private $_layouts_path = 'layouts/';
+        private $_js_scripts_path = 'js/';
+        private $_uploads_path = 'uploads/';
+        private $_realization_images_path = 'realization_images/';
         
         public function getClassPath()
         {
@@ -27,6 +29,14 @@
         public function getJSScriptsPath()
         {
             return $this ->_js_scripts_path;
+        }
+        public function getRealizationImagesPath()
+        {
+            return $this ->_uploads_path . $this ->_realization_images_path;
+        }
+        public function getUploadsPath()
+        {
+            return $this ->_uploads_path;
         }
         
         public function  __construct()

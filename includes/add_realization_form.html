@@ -1,6 +1,10 @@
 <form id="add-realization-form">
+    <input id="file-upload-path" type="hidden" value="{$upload_path}" />
+    
     <label for="title"><span>Tytuł*</span><input type="text" id="title" name="title" /><span id="title-error-message" class="errorText"></span></label>
-
+    
+    <label for="file"><span>Plik obrazu</span><input type="file" id="file" name="file" /><span id="file-queue"></span><span id="file-error-message" class="errorText"></span></label>
+    
     <label for="editor"><span>Opis*</span><span id="text-error-message" class="errorText"></span></label>
     <textarea id="text" class="ckeditor" name="text" cols="80" rows="10"></textarea>
 

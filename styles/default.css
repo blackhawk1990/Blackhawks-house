@@ -181,18 +181,6 @@ body {
 {
         display: none;
 }
-#section #banner-1
-{
-        background: url('../images/banner_photo_1.png') no-repeat;
-}
-#section #banner-2
-{
-        background: url('../images/banner_photo_2.png') no-repeat;
-}
-#section #banner-3
-{
-        background: url('../images/banner_photo_3.png') no-repeat;
-}
 #featured {
 	background: url(../images/bg-content.jpg) repeat;
 	margin: 0;
@@ -611,7 +599,8 @@ body {
 {
     float: left;
 }
-#body #add-realization-form #tags
+#body #add-realization-form #tags,
+#body #add-realization-form #file-queue
 {
     float: right;
     width: 220px;

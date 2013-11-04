@@ -2,9 +2,18 @@
 
     //wylaczenie ostrzezen w php
     //error_reporting(E_ALL ^ E_WARNING);
+    
+    include 'config/default.php';
 
-    require_once 'class.Template.php';
-    require_once 'class.Path.php';
+    /*****************auto loading all classes in classes catalog*********************/
+    $oDir = dir(CLASSES_PATH);
+    while(($sFile = $oDir->read()) != NULL)
+    {
+        if($sFile != '.' && $sFile != '..')
+        {
+            require_once CLASSES_PATH . $sFile;
+        }
+    }
     
     $path = new Path();
 
@@ -29,8 +38,6 @@
 	
 	<link rel ="shortcut icon" href ="styles/img/favicon.ico" type ="image/x-icon" />';
     
-    require_once $path->getClassPath() . 'class.View.php';
-    
     $view_class = new View();
     
     //****************************************<STYLES>****************************************//
@@ -45,7 +52,7 @@
     
     $page->assign['common-head-content'] .= "\n\n\t" . $view_class->addScriptFile($path->getJSScriptsPath() . 'ui/jquery-1.8.2.min.js');
     $page->assign['common-head-content'] .= "\n\t" . $view_class->addScriptFile($path->getJSScriptsPath() . 'ui/jquery-ui-1.10.3.custom.min.js');
-     $page->assign['common-head-content'] .= "\n\t" . $view_class->addScriptFile($path->getJSScriptsPath() . 'ui/jquery.ui.datepicker-pl.js');
+    $page->assign['common-head-content'] .= "\n\t" . $view_class->addScriptFile($path->getJSScriptsPath() . 'ui/jquery.ui.datepicker-pl.js');
     
     //****************************************</SCRIPTS>***************************************//
     
@@ -126,8 +133,6 @@
          */
         if ($_GET['action'] == 'login')
         {
-            require_once Path::$_main_path . $path->getClassPath() . 'class.Log.php';
-
             $log = new Log($_POST['login'], $_POST['password']);
             
             if($log->login())
@@ -150,8 +155,6 @@
         {
             if(!empty($_POST))
             {
-                require_once Path::$_main_path . $path->getClassPath() . 'class.Db.php';
-                
                 $oDb = new Db();
                 echo $oDb->saveRow($_POST);
                 exit();
@@ -167,20 +170,20 @@
         $view = new Template();
         
         //init
+        $view->assign['main-section'] = '';
         $view->assign['left-col-content'] = '';
         $view->assign['right-col-content'] = '';
-        
-        //liczba widocznych nowych realizacji na str glownej
-        $num_of_new_realizations_viewed = 2;
         
         $page->assign['common-head-content'] .= "<script type=\"text/javascript\" src=\"" . $path->getJSScriptsPath() . "ui/jquery.carouFredSel-6.2.0-packed.js\"></script>
             <script type=\"text/javascript\" src=\"" . $path->getJSScriptsPath() . "carousel.js\"></script>
             <script type=\"text/javascript\" src=\"" . $path->getJSScriptsPath() . "facebook.js\"></script>";
         
-        require_once Path::$_main_path.$path->getClassPath().'class.Db.php';
-        
         $view->assign['right-col-content'] = '<h3>Najnowsze realizacje</h3>
                                                 <ul>';
+        
+        //SLIDER
+        $oSlider = new Slider('_slider_slides');
+        $view->assign['main-section'] = $oSlider->getSlider();
         
         //uzytkownik nie zalogowany
         if(!isset($_SESSION['login']))
@@ -193,7 +196,7 @@
 
             while(($news = $oDb->_query->fetch_assoc()) != NULL)
             {
-                if($i < $num_of_new_realizations_viewed)
+                if($i < NUM_OF_REALIZATIONS_VIEWED)
                 {
                     $view->assign['right-col-content'] .= "<li>
                                                             <h3>" . $news['title'] . "</h3>
@@ -203,7 +206,7 @@
                                                                 </p>
                                                                 <a href=\"?view=realization&id=" . $news['id']  . "\" class=\"more\">więcej</a>
                                                             </div>
-                                                            <img src=\"images/" . $news['image'] . "\" alt=\"\">
+                                                            <img src=\"" . $path->getRealizationImagesPath() . $news['image'] . "\" alt=\"\">
                                                           </li>";
                 }
                 $i++;
@@ -238,13 +241,10 @@
                 $oDb = new Db();
                 $oDb->getRealizations();
 
-                //wczytanie klasy do przeksztalcenia daty
-
-                require_once Path::$_main_path.$path->getClassPath().'class.Date.php';
-
+                //przeksztalcenie daty
                 while(($news = $oDb->_query->fetch_assoc()) != NULL)
                 {
-                    if($i < $num_of_new_realizations_viewed)
+                    if($i < NUM_OF_REALIZATIONS_VIEWED)
                     {
                         $date = new Date('pl', $news['date']);
 
@@ -256,7 +256,7 @@
                                                                 </p>
                                                                 <a href=\"?view=realization&id=" . $news['id']  . "\" class=\"more\">więcej</a>
                                                             </div>
-                                                            <img src=\"images/" . $news['image'] . "\" alt=\"\">
+                                                            <img src=\"" . $path->getRealizationImagesPath() . $news['image'] . "\" alt=\"\">
                                                           </li>";
                     }
                     $i++;
@@ -279,13 +279,10 @@
                 $oDb = new Db();
                 $oDb->getRealizations();
 
-                //wczytanie klasy do przeksztalcenia daty
-
-                require_once Path::$_main_path.$path->getClassPath().'class.Date.php';
-
+                //przeksztalcenie daty
                 while(($news = $oDb->_query->fetch_assoc()) != NULL)
                 {
-                    if($i < $num_of_new_realizations_viewed)
+                    if($i < NUM_OF_REALIZATIONS_VIEWED)
                     {
                         $date = new Date('pl', $news['data']);
 
@@ -297,7 +294,7 @@
                                                                 </p>
                                                                 <a href=\"?view=realization&id=" . $news['id']  . "\" class=\"more\">więcej</a>
                                                             </div>
-                                                            <img src=\"images/" . $news['image'] . "\" alt=\"\">
+                                                            <img src=\"" . $path->getRealizationImagesPath() . $news['image'] . "\" alt=\"\">
                                                           </li>";
                     }
                     $i++;
@@ -332,11 +329,6 @@
     }
     else if($_GET['view'] == 'realization')
     {
-        require_once Path::$_main_path.$path->getClassPath().'class.Db.php';
-        
-        //wczytanie klasy do przeksztalcenia daty
-        require_once Path::$_main_path.$path->getClassPath().'class.Date.php';
-        
         $view = new Template();
         
         //inicjalizacja
@@ -376,7 +368,7 @@
                                                                     </p>
                                                                     <a href=\"?view=realization&id=" . $new_realization['id'] . "\" class=\"more\">więcej</a>
                                                                 </div>
-                                                                <img src=\"images/" . $new_realization['image'] . "\" alt=\"\">
+                                                                <img src=\"" . $path->getRealizationImagesPath() . $new_realization['image'] . "\" alt=\"\">
                                                               </li>";
             }
             $i++;
@@ -424,11 +416,6 @@
         //tytul strony
         $page->assign['title'] = "Portfolio";
         
-        require_once Path::$_main_path.$path->getClassPath().'class.Db.php';
-        
-        //wczytanie klasy do przeksztalcenia daty
-        require_once Path::$_main_path.$path->getClassPath().'class.Date.php';
-        
         $view = new Template();
         
         //inicjalizacja
@@ -459,7 +446,7 @@
 
                                                     <h4>Data wykonania: " . $date->getDate() . "</h4>
                                                 </div>
-                                                <img src=\"images/" . $aRealizations['image'] . "\" alt=\"\" />
+                                                <img src=\"" . $path->getRealizationImagesPath() . $aRealizations['image'] . "\" alt=\"\" />
                                             </div>";
             
             $i++;
@@ -521,9 +508,12 @@
             
             $page->assign['common-head-content'] .= "\n\t" . $view_class->addScriptFile($path->getJSScriptsPath() . "ckeditor.js");
             $page->assign['common-head-content'] .= "\n\t" . $view_class->addScriptFile($path->getJSScriptsPath() . "ui/bootstrap-tagmanager.js");
+            $page->assign['common-head-content'] .= "\n\t" . $view_class->addScriptFile($path->getJSScriptsPath() . "ui/uploadify/swfobject.js");
+            $page->assign['common-head-content'] .= "\n\t" . $view_class->addScriptFile($path->getJSScriptsPath() . "ui/uploadify/jquery.uploadify.v2.1.4.min.js");
             $page->assign['common-head-content'] .= "\n\t" . $view_class->addScriptFile($path->getJSScriptsPath() . "admin_panel.js");
             
             $oAddRealizationFormView = new Template();
+            $oAddRealizationFormView->assign['upload_path'] = $path->getRealizationImagesPath();
             
             $view->assign['login'] = $_SESSION['login'];
             $view->assign['add_realization_form'] = $oAddRealizationFormView->parse($path->getIncludesPath() . 'add_realization_form.html');

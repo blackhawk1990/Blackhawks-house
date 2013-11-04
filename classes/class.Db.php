@@ -49,6 +49,12 @@
                     `used_technologies` VARCHAR ( 60 ) NOT NULL
                     ) ENGINE = INNODB DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci");
                 @$this -> query ($this -> _Hnd, "
+                    CREATE TABLE IF NOT EXISTS _slider_slides(`id` INT PRIMARY KEY AUTO_INCREMENT,
+                    `title` VARCHAR(30) NOT NULL, 
+                    `content` TEXT NOT NULL,
+                    `image` VARCHAR(40) NOT NULL
+                    ) ENGINE = INNODB DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci");
+                @$this -> query ($this -> _Hnd, "
                     CREATE TABLE IF NOT EXISTS _users(`id` INT PRIMARY KEY AUTO_INCREMENT,
                     `login` VARCHAR(50) NOT NULL, `password` VARCHAR(40) NOT NULL, 
                     `role` ENUM('admin','user','reporter') NOT NULL
@@ -62,10 +68,6 @@
                 {
                     $this->_query = @$this->query($this->_Hnd, 'SELECT * FROM ' . $this->_table . ' ORDER BY data DESC, tytul ASC');
                 }
-                else if($this->_table == 'imieniny')
-                {
-                    $this->_query = @$this->query($this->_Hnd, 'SELECT MONTH(`data`) AS `miesiac`, DAY(`data`) AS `dzien`, imiona FROM ' . $this->_table);
-                }
                 else
                 {
                     $this->_query = @$this->query($this->_Hnd, 'SELECT * FROM ' . $this->_table);
@@ -74,7 +76,10 @@
         }
         public function  __destruct()
         {
-            $this->_Hnd->close();
+            //db disconnect
+            $this -> _Hnd -> close();
+            //handler destroy
+            $this -> _Hnd = null;
         }
         
         public function getUserData($id)
