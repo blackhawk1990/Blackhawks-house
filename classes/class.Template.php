@@ -1,9 +1,41 @@
 <?php
+
 class Template
 {
     public $assign;
     private $parsed;
-
+    
+    /**
+     * Generates menu from database
+     * 
+     * @return string Generated menu <b>HTML</b>
+     */
+    public function getMenu()
+    {
+        $oMenu = new Menu();
+        $menuData = $oMenu->getMainMenuItems();
+        
+        $sReturnHTML = '';
+        
+        while(($menuItem = $menuData->fetch_assoc()) != NULL)
+        {
+            if($menuItem['count'] != 0)
+            {
+                $sReturnHTML .= ((isset($_GET['view']) && $_GET['view'] == $menuItem['name']) ? '<li class="select">' : '<li>') .
+                                    '<a href="?view=' . $menuItem['name'] . '">' . strtoupper($menuItem['label']) . '</a>
+                                </li>';
+            }
+        }
+        
+        return $sReturnHTML;
+    }
+    
+    /**
+     * Parses view template to HTML site ready to view in browser
+     * 
+     * @param string $file_name Template file name in templates folder which is parsed to view
+     * @return string Parsed from template HTML site
+     */
     public function parse($file_name)
     {
 

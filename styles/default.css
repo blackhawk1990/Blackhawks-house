@@ -57,19 +57,24 @@ body {
 	border: 0;
 	display: block;
 }
+#header #main-menu {
+        margin: 0 auto;
+        width: 960px;
+}
 #header ul {
-	margin: 0 auto;
+        margin: 0 auto;
 	overflow: hidden;
 	padding: 15px 0 22px;
 	text-align: center;
-	width: 960px;
+        width: 110px;
 }
 #header ul li {
 	float: left;
 	list-style: none;
-	margin: 0 0 0 116px;
-	;
+        overflow: hidden;
+	margin: 0 0 0 25px;
 	padding: 0;
+        width: 95px;
 }
 #header ul li:first-child {
 	margin: 0 0 0 15px;

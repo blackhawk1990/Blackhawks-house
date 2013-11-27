@@ -6,12 +6,22 @@
     include 'config/default.php';
 
     /*****************auto loading all classes in classes catalog*********************/
-    $oDir = dir(CLASSES_PATH);
-    while(($sFile = $oDir->read()) != NULL)
+    $oClassesDir = dir(CLASSES_PATH);
+    while(($sFile = $oClassesDir->read()) != NULL)
     {
         if($sFile != '.' && $sFile != '..')
         {
             require_once CLASSES_PATH . $sFile;
+        }
+    }
+    
+    /*****************auto loading all models in models catalog*********************/
+    $oModelsDir = dir(MODELS_PATH);
+    while(($sFile = $oModelsDir->read()) != NULL)
+    {
+        if($sFile != '.' && $sFile != '..')
+        {
+            require_once MODELS_PATH . $sFile;
         }
     }
     
@@ -23,20 +33,11 @@
     $page->assign['charset'] = "UTF-8";
     $page->assign['main-page'] = Path::$_main_path;
     $page->assign['scripts'] = '';
+    $page->assign['common-head-content'] = '';
     
     $page->assign['title'] = "Blackhawk's House";
     
-    $page->assign['copyrights'] = "&copy; Łukasz Traczewski 2011 - 2013, icon by <a href = \"http://linkgilbs.deviantart.com/\" target = \"_blank\">Jake Gilbert</a><a href = \"http://validator.w3.org/check?uri=http%3A%2F%2Fblackhawkshouse.pl%2F\" target = \"_blank\"><img src = \"styles/img/HTML5_logo.png\" alt = \"Logo HTML 5\" /></a><br />Ostatnia aktualizacja: 06-04-2013";
-    
-    $page->assign['common-head-content'] = '<meta name = "description" content = "Strona domowa Łukasza Traczewskiego - programisty, webmastera freelancera" />
-        <meta name = "keywords" content = "blackhawk,Blackhawk,Łukasz Traczewski,Łukasza,Traczewskiego,strona domowa,homepage,webmaster,webmastera,freelancer,freelancera,programista,programisty,programmer,Olsztyn,olsztyn,Nidzica,nidzica" />
-        <meta name = "robots" content = "noodp" />
-        
-        <!--************************geotagi***************************************-->
-        <meta name = "geo.placename" content = "Olsztyn, Poland" />
-        <meta name = "geo.region" content="pl" />
-	
-	<link rel ="shortcut icon" href ="styles/img/favicon.ico" type ="image/x-icon" />';
+    $page->assign['copyrights'] = "&copy; Łukasz Traczewski 2011 - 2013, icon by <a href = \"http://linkgilbs.deviantart.com/\" target = \"_blank\">Jake Gilbert</a><a href = \"http://validator.w3.org/check?uri=http%3A%2F%2Fblackhawkshouse.pl%2F\" target = \"_blank\"><img src = \"styles/img/HTML5_logo.png\" alt = \"Logo HTML 5\" /></a><br />Ostatnia aktualizacja: 27-11-2013";
     
     $view_class = new View();
     
@@ -50,7 +51,8 @@
     
     //****************************************<SCRIPTS>***************************************//
     
-    $page->assign['common-head-content'] .= "\n\n\t" . $view_class->addScriptFile($path->getJSScriptsPath() . 'ui/jquery-1.8.2.min.js');
+    $page->assign['common-head-content'] .= "\n\t" . $view_class->addScriptFile($path->getJSScriptsPath() . 'ui/jquery-1.8.2.min.js');
+    $page->assign['common-head-content'] .= "\n\n\t" . $view_class->addScriptFile($path->getJSScriptsPath() . 'main.js');
     $page->assign['common-head-content'] .= "\n\t" . $view_class->addScriptFile($path->getJSScriptsPath() . 'ui/jquery-ui-1.10.3.custom.min.js');
     $page->assign['common-head-content'] .= "\n\t" . $view_class->addScriptFile($path->getJSScriptsPath() . 'ui/jquery.ui.datepicker-pl.js');
     
@@ -58,42 +60,10 @@
     
     
     //gorne menu + warunki na zaznaczanie, gdy ktoras podstrona jest otwarta
-    $page->assign['up-menu'] = ((!isset($_GET['view'])) ? '<li class="select">
-                                                            <a href="' . $page->assign['main-page'] . '">home</a>
-                                                           </li>' :
-                                                        '<li>
-                                                            <a href="' . $page->assign['main-page'] . '">home</a>
-                                                        </li>') .
-                                ((isset($_GET['view']) && $_GET['view'] == 'about') ? '<li class="select">
-                                                                <a href="?view=about">o mnie</a>
-                                                              </li>' :
-                                                              '<li>
-                                                                <a href="?view=about">o mnie</a>
-                                                              </li>') .
-                                ((isset($_GET['view']) && $_GET['view'] == 'services') ? '<li class="select">
-                                                                <a href="?view=services">oferta</a>
-                                                              </li>' :
-                                                              '<li>
-                                                                <a href="?view=services">oferta</a>
-                                                              </li>') .
-                                ((isset($_GET['view']) && $_GET['view'] == 'portfolio') ? '<li class="select">
-                                                                <a href="?view=portfolio">portfolio</a>
-                                                              </li>' :
-                                                              '<li>
-                                                                <a href="?view=portfolio">portfolio</a>
-                                                              </li>') .
-                                ((isset($_GET['view']) && $_GET['view'] == 'contact') ? '<li class="select">
-                                                                <a href="?view=contact">kontakt</a>
-                                                              </li>' :
-                                                              '<li>
-                                                                <a href="?view=contact">kontakt</a>
-                                                              </li>') .
-                                ((isset($_GET['view']) && $_GET['view'] == 'admin') ? '<li class="select">
-                                                                <a href="?view=admin">strefa adm</a>
-                                                              </li>' :
-                                                              '<li>
-                                                                <a href="?view=admin">strefa adm</a>
-                                                              </li>');
+    $page->assign['up-menu'] = ((!isset($_GET['view'])) ? '<li class="select">' : '<li>') . 
+                                    '<a href="' . $page->assign['main-page'] . '">home</a>
+                               </li>' .
+                               $page->getMenu();
     
     //social media
     $page->assign['social-media'] = '<li id="facebook">
@@ -174,9 +144,9 @@
         $view->assign['left-col-content'] = '';
         $view->assign['right-col-content'] = '';
         
-        $page->assign['common-head-content'] .= "<script type=\"text/javascript\" src=\"" . $path->getJSScriptsPath() . "ui/jquery.carouFredSel-6.2.0-packed.js\"></script>
-            <script type=\"text/javascript\" src=\"" . $path->getJSScriptsPath() . "carousel.js\"></script>
-            <script type=\"text/javascript\" src=\"" . $path->getJSScriptsPath() . "facebook.js\"></script>";
+        $page->assign['common-head-content'] .= "\n\t<script type=\"text/javascript\" src=\"" . $path->getJSScriptsPath() . "ui/jquery.carouFredSel-6.2.0-packed.js\"></script>";
+        $page->assign['common-head-content'] .= "\n\t<script type=\"text/javascript\" src=\"" . $path->getJSScriptsPath() . "carousel.js\"></script>";
+        $page->assign['common-head-content'] .= "\n\t<script type=\"text/javascript\" src=\"" . $path->getJSScriptsPath() . "facebook.js\"></script>";
         
         $view->assign['right-col-content'] = '<h3>Najnowsze realizacje</h3>
                                                 <ul>';

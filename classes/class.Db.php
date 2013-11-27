@@ -13,15 +13,15 @@
         public static $_db = "blackhawkshouse_pl";
         public static $_login = "blackhawk90";
         public static $_pass = "skomp3l";*/
-        private $_Hnd = NULL;
+        protected $_Hnd = NULL;
         public $_query;
         private $_table;
         
-        private function query($_Hnd, $query)
+        protected function query($_Hnd, $query)
         {
             return $_Hnd->query($query);
         }
-        private function multiquery($_Hnd, $query)
+        protected function multiquery($_Hnd, $query)
         {
             return $_Hnd->multi_query($query);
         }
@@ -62,6 +62,11 @@
                 @$this -> query ($this -> _Hnd, "
                     CREATE TABLE IF NOT EXISTS _config(`id` INT PRIMARY KEY AUTO_INCREMENT,
                     `label` VARCHAR(30) NOT NULL, `value` VARCHAR(20) NOT NULL
+                    ) ENGINE = INNODB DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci");
+                @$this -> query ($this -> _Hnd, "
+                    CREATE TABLE IF NOT EXISTS _main_menu(`id` INT PRIMARY KEY AUTO_INCREMENT,
+                    `label` VARCHAR(50) NOT NULL, 
+                    `name` VARCHAR(30) NOT NULL
                     ) ENGINE = INNODB DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci");
 
                 if($this->_table == 'news')
