@@ -369,11 +369,6 @@ body {
     box-shadow: 0 0 2px #97aeb3;
     font-size: 15px;
 }
-#body #right-col #admin-menu ul > li div:hover
-{
-    background: #fff600;
-    box-shadow: 0 0 2px #000000;
-}
 #body #right-col #admin-menu ul > li a
 {
     color: #97aeb3;
@@ -610,6 +605,22 @@ body {
     float: right;
     width: 220px;
     padding: 10px 0;
+}
+#body #realization-options-table
+{
+    border-collapse: collapse
+}
+#body #realization-options-table th
+{
+    border-bottom: 2px solid #B7C4C7;
+    padding: 10px;
+}
+#body #realization-options-table td
+{
+    text-align: center;
+    border-bottom: 2px solid #ffe600;
+    padding: 10px;
+    min-width: 200px;
 }
 #body .realization
 {
@@ -1018,6 +1029,11 @@ body {
 #login-status
 {
     margin-bottom: 10px;
+}
+
+.table-option:hover
+{
+    opacity: 0.8;
 }
 
 /*****************tooltip**********************/

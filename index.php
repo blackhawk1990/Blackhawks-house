@@ -125,8 +125,33 @@
         {
             if(!empty($_POST))
             {
+                $aEscaped = array();
+                foreach($_POST as $key => $value)
+                {
+                    $aEscaped[$key] = mysql_real_escape_string(trim($value));
+                }
+                
                 $oDb = new Db();
-                echo $oDb->saveRow($_POST);
+                echo $oDb->saveRow($aEscaped);
+                exit();
+            }
+        }
+        else if ($_GET['action'] == 'delete_realization')
+        {
+            if(!empty($_POST))
+            {
+                $iId = mysql_real_escape_string(trim($_POST['id']));
+                
+                $oRealization = new Realization();
+                $sRelizationImageName = $oRealization->getRealizationImageName($iId);
+                
+                $oDb = new Db();
+                
+                if(unlink(UPLOADS_PATH . REALIZATION_IMAGES_PATH . $sRelizationImageName))
+                    echo $oDb->deleteRow($iId);
+                else
+                    echo 0;
+                
                 exit();
             }
         }
@@ -159,12 +184,12 @@
         if(!isset($_SESSION['login']))
         {
             //wczytywanie informacji z bazy danych
-            $oDb = new Db();
-            $oDb->getRealizations();
+            $oRealization = new Realization();
+            $oRealizationData = $oRealization->getRealizations();
 
             $i = 0;
 
-            while(($news = $oDb->_query->fetch_assoc()) != NULL)
+            while(($news = $oRealizationData->fetch_assoc()) != NULL)
             {
                 if($i < NUM_OF_REALIZATIONS_VIEWED)
                 {
@@ -176,7 +201,7 @@
                                                                 </p>
                                                                 <a href=\"?view=realization&id=" . $news['id']  . "\" class=\"more\">więcej</a>
                                                             </div>
-                                                            <img src=\"" . $path->getRealizationImagesPath() . $news['image'] . "\" alt=\"\">
+                                                            <img src=\"" . UPLOADS_PATH . REALIZATION_IMAGES_PATH . $news['image'] . "\" alt=\"\">
                                                           </li>";
                 }
                 $i++;
@@ -197,27 +222,24 @@
             if($_SESSION['role'] == 'admin')
             {   
                 //wczytywanie informacji z bazy danych
-                $oDb = new Db();
-                $oDb->getRealizations();
+                $oRealization = new Realization();
+                $oRealizationData = $oRealization->getRealizations();
 
                 $i = 0;
                 $length = 0;
 
-                while(($news = $oDb->_query->fetch_assoc()) != NULL)
+                while(($news = $oRealizationData->fetch_assoc()) != NULL)
                 {
                     $length++;
                 }
 
-                $oDb = new Db();
-                $oDb->getRealizations();
+                $oRealizationData = $oRealization->getRealizations();
 
                 //przeksztalcenie daty
-                while(($news = $oDb->_query->fetch_assoc()) != NULL)
+                while(($news = $oRealizationData->fetch_assoc()) != NULL)
                 {
                     if($i < NUM_OF_REALIZATIONS_VIEWED)
                     {
-                        $date = new Date('pl', $news['date']);
-
                         $view->assign['right-col-content'] .= "<li>
                                                             <h3>" . $news['title'] . "</h3>
                                                             <div>
@@ -226,7 +248,7 @@
                                                                 </p>
                                                                 <a href=\"?view=realization&id=" . $news['id']  . "\" class=\"more\">więcej</a>
                                                             </div>
-                                                            <img src=\"" . $path->getRealizationImagesPath() . $news['image'] . "\" alt=\"\">
+                                                            <img src=\"" . UPLOADS_PATH . REALIZATION_IMAGES_PATH . $news['image'] . "\" alt=\"\">
                                                           </li>";
                     }
                     $i++;
@@ -235,27 +257,24 @@
             else //widok dla innych uzytkownikow
             {
                 //wczytywanie informacji z bazy danych
-                $oDb = new Db();
-                $oDb->getRealizations();
+                $oRealization = new Realization();
+                $oRealizationData = $oRealization->getRealizations();
 
                 $i = 0;
                 $length = 0;
 
-                while(($news = $oDb->_query->fetch_assoc()) != NULL)
+                while(($news = $oRealizationData->fetch_assoc()) != NULL)
                 {
                     $length++;
                 }
 
-                $oDb = new Db();
-                $oDb->getRealizations();
+                $oRealizationData = $oRealization->getRealizations();
 
                 //przeksztalcenie daty
-                while(($news = $oDb->_query->fetch_assoc()) != NULL)
+                while(($news = $oRealizationData->fetch_assoc()) != NULL)
                 {
                     if($i < NUM_OF_REALIZATIONS_VIEWED)
                     {
-                        $date = new Date('pl', $news['data']);
-
                         $view->assign['right-col-content'] .= "<li>
                                                             <h3>" . $news['title'] . "</h3>
                                                             <div>
@@ -264,7 +283,7 @@
                                                                 </p>
                                                                 <a href=\"?view=realization&id=" . $news['id']  . "\" class=\"more\">więcej</a>
                                                             </div>
-                                                            <img src=\"" . $path->getRealizationImagesPath() . $news['image'] . "\" alt=\"\">
+                                                            <img src=\"" . UPLOADS_PATH . REALIZATION_IMAGES_PATH . $news['image'] . "\" alt=\"\">
                                                           </li>";
                     }
                     $i++;
@@ -315,20 +334,19 @@
         $new_realizations_view->assign['new-realizations-content'] = "";
         
         //wczytywanie informacji z bazy danych
-        $oDb = new Db();
-        $oDb->getRealizations();
+        $oRealization = new Realization();
+        $oRealizationData = $oRealization->getRealizations();
 
         $i = 0;
         $length = 0;
 
-        while (($news = $oDb->_query->fetch_assoc()) != NULL) {
+        while (($news = $oRealizationData->fetch_assoc()) != NULL) {
             $length++;
         }
         
-        $oDb = new Db();
-        $oDb->getRealizations();
+        $oRealizationData = $oRealization->getRealizations();
 
-        while (($new_realization = $oDb->_query->fetch_assoc()) != NULL) {
+        while (($new_realization = $oRealizationData->fetch_assoc()) != NULL) {
             if ($i < 4) {
                 $new_realizations_view->assign['new-realizations-content'] .= "<li>
                                                                 <h3>" . $new_realization['title'] . "</h3>
@@ -338,7 +356,7 @@
                                                                     </p>
                                                                     <a href=\"?view=realization&id=" . $new_realization['id'] . "\" class=\"more\">więcej</a>
                                                                 </div>
-                                                                <img src=\"" . $path->getRealizationImagesPath() . $new_realization['image'] . "\" alt=\"\">
+                                                                <img src=\"" . UPLOADS_PATH . REALIZATION_IMAGES_PATH . $new_realization['image'] . "\" alt=\"\">
                                                               </li>";
             }
             $i++;
@@ -346,9 +364,9 @@
         
         if(isset($_GET['id']) && $_GET['id'] != "")
         {
-            $oDb = new Db();
+            $oRealization = new Realization();
             //wczytywanie danych realizacji
-            $realization_data = $oDb->getRealizationById($_GET['id']);
+            $realization_data = $oRealization->getRealizationById($_GET['id']);
             $aRealization = $realization_data->fetch_assoc();
             
             //jesli sa jakies realizacje
@@ -360,7 +378,7 @@
                 $view->assign['realization-text'] = $aRealization['text'];
                 $view->assign['realization-tech'] = $aRealization['used_technologies'];
                 $view->assign['realization-date'] = $oDate->getDate();
-                $view->assign['realization-image'] = $aRealization['image'];
+                $view->assign['realization-image'] = UPLOADS_PATH . REALIZATION_IMAGES_PATH . $aRealization['image'];
                 $view->assign['realization-url'] = $aRealization['url'] != '' ? '<a href="' . $aRealization['url'] . '" target="_blank">' . $aRealization['url'] . '</a>' : 'brak';
                 
                 //dodatkowa tresc ponizej opisu realizacji(nowe realizacje)
@@ -392,11 +410,11 @@
         $view->assign['realizations'] = "";
         
         //wczytywanie informacji z bazy danych
-        $oDb = new Db();
-        $oDb->getRealizations();
+        $oRealization = new Realization();
+        $oRealizationData = $oRealization->getRealizations();
         
         $i = 0;
-        while(($aRealizations = $oDb->_query->fetch_assoc()) != NULL)
+        while(($aRealizations = $oRealizationData->fetch_assoc()) != NULL)
         {
             $date = new Date('pl', $aRealizations['date']);
 
@@ -416,7 +434,7 @@
 
                                                     <h4>Data wykonania: " . $date->getDate() . "</h4>
                                                 </div>
-                                                <img src=\"" . $path->getRealizationImagesPath() . $aRealizations['image'] . "\" alt=\"\" />
+                                                <img src=\"" . UPLOADS_PATH . REALIZATION_IMAGES_PATH . $aRealizations['image'] . "\" alt=\"\" />
                                             </div>";
             
             $i++;
@@ -483,10 +501,31 @@
             $page->assign['common-head-content'] .= "\n\t" . $view_class->addScriptFile($path->getJSScriptsPath() . "admin_panel.js");
             
             $oAddRealizationFormView = new Template();
-            $oAddRealizationFormView->assign['upload_path'] = $path->getRealizationImagesPath();
+            $oAddRealizationFormView->assign['upload_path'] = UPLOADS_PATH . REALIZATION_IMAGES_PATH;
+            
+            $oRealizationOptionsView = new Template();
+            
+            //odczyt z bazy danych listy wszystkich realizacji i generowanie listy
+            $oRealization = new Realization();
+            $oRealizationData = $oRealization->getRealizations();
+            $sRealizationsList = '';
+            while(($aRealization = $oRealizationData->fetch_assoc()) != NULL)
+            {
+                $oDate = new Date('pl', $aRealization['date']);
+                $sRealizationsList .= "<tr>
+                                            <td>" . $aRealization['title'] . "</td>
+                                            <td>" . $oDate->getDate() . "</td>
+                                            <td>
+                                                <a href=\"#\" id=\"" . $aRealization['id'] . "\" class=\"delete table-option\"><img src=\"" . STYLES_PATH . "img/icons/trash_can.png\" /></a>
+                                            </td>
+                                       </tr>";
+            }
+            
+            $oRealizationOptionsView->assign['realizations_list'] = $sRealizationsList;
             
             $view->assign['login'] = $_SESSION['login'];
-            $view->assign['add_realization_form'] = $oAddRealizationFormView->parse($path->getIncludesPath() . 'add_realization_form.html');
+            $view->assign['add_realization_form'] = $oAddRealizationFormView->parse(INCLUDES_PATH . 'add_realization_form.html');
+            $view->assign['realization_options_view'] = $oRealizationOptionsView->parse(INCLUDES_PATH . 'realization_options_view.html');
             
             $page->assign['view-content'] = $view->parse('templates/admin.html');
         }

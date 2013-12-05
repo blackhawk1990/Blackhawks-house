@@ -87,36 +87,6 @@
             $this -> _Hnd = null;
         }
         
-        public function getUserData($id)
-        {
-            if($id != NULL)
-            {
-                return $this->_query = @$this->query($this->_Hnd, 'SELECT login, password, role FROM users WHERE id = ' . $id);
-            }
-            else
-            {
-                return "You must create an object with id!";
-            }
-        }
-        
-        public function getUsersData()
-        {
-            $this->_query = @$this->query($this->_Hnd, 'SELECT * FROM _users');
-        }
-        
-        public function getRealizations()
-        {
-            return $this->_query = @$this->query($this->_Hnd, 'SELECT * FROM ' . $this->_table . ' ORDER BY `date` DESC');
-        }
-        
-        public function getRealizationById($id = null)
-        {
-            if($id != null)
-            {
-                return $this->_query = @$this->query($this->_Hnd, 'SELECT * FROM ' . $this->_table . ' WHERE id = ' . $id);
-            }
-        }
-        
         public function saveRow($aData)
         {
             $aColumnNames = array();
@@ -130,7 +100,7 @@
                 $i++;
             }
             
-            $sQuery = "INSERT INTO " . $this->_table . '(';
+            $sQuery = "INSERT INTO `" . $this->_table . '` (';
             $sValuesQueryPart = " VALUES(";
             $iColumnNumber = count($aColumnNames);
             $i = 1;
@@ -153,6 +123,14 @@
             }
             
             $sQuery .= ")" . $sValuesQueryPart . ");";
+            
+            return $this->query($this->_Hnd, $sQuery);
+        }
+        
+        public function deleteRow($iId)
+        {
+            $sQuery = "DELETE FROM `" . $this->_table . "`
+                WHERE `id` = " . $iId;
             
             return $this->query($this->_Hnd, $sQuery);
         }

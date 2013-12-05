@@ -2,17 +2,22 @@ $(function(){
     
     var uploadPath = $('#add-realization-form #file-upload-path').val();
     
+    //****************************<admin menu>***************************************************//
     $('#body .content .admin-option-content').not('.admin-option-content:eq(0)').hide();
+    $('#admin-menu li:eq(0) div').css({ 'background-color' : '#fff600', 'box-shadow' : '0 0 2px #000000' });
     
     $('#admin-menu li a').click(function(e){
         
         e.preventDefault();
         
         $('#body .content .admin-option-content').hide();
+        $('#admin-menu li div').css({ 'background-color' : '#FFE600', 'box-shadow' : '0 0 2px #97aeb3' });
         
+        $(this).parent('li').find('div').css({ 'background-color' : '#fff600', 'box-shadow' : '0 0 2px #000000' });
         $($(this).attr('href')).fadeIn('fast');
         
     });
+    //****************************</admin menu>**************************************************//
     
     //kalendarz
     $.datepicker.regional['pl'];
@@ -72,10 +77,11 @@ $(function(){
             var title = $('#title').val();
             var image = fileObj.name;
             var text = $('#text').val();
+            var intro = $('#intro').val();
             var date = $('#date').val();
             var used_technologies = $('#used-technologies-hidden').val().replace(",", ", ");
             
-            addRealization(title, image, text, date, used_technologies);
+            addRealization(title, image, text, intro, date, used_technologies);
         } 
     });
     
@@ -88,10 +94,11 @@ $(function(){
         $('#title-error-message').text('');
         $('#file-error-message').text('');
         $('#text-error-message').text('');
+        $('#intro-error-message').text('');
         $('#date-error-message').text('');
         $('#used-technologies-error-message').text('');
         
-        if($('#title').val() != '' && $('#text').val() != '' && $('#date').val() != '' && $('#used-technologies-hidden').val() != '')
+        if($('#title').val() != '' && $('#text').val() != '' && $('#intro').val() != '' && $('#intro').val().length <= 60 && $('#date').val() != '' && $('#used-technologies-hidden').val() != '')
         {   
             $('#file').uploadifyUpload();
         }
@@ -107,6 +114,16 @@ $(function(){
                 $('#text-error-message').text('Uzupełnij treść opisu!');
             }
             
+            if($('#intro').val() == '')
+            {
+                $('#intro-error-message').text('Podaj krótki opis!');
+            }
+            
+            if($('#intro').val().length > 60)
+            {
+                $('#intro-error-message').text('Maksymalna długość krótkiego opisu to 60 znaków!');
+            }
+            
             if($('#date').val() == '')
             {
                 $('#date-error-message').text('Uzupełnij datę wdrożenia!');
@@ -120,14 +137,43 @@ $(function(){
         
     });
     
+    //usuwanie danej realizacji
+    $('#realization-options-table .delete').live("click", function(){
+        
+        var id = $(this).attr('id');
+        
+        $('body').append('<div id="dialog-wrapper" title="Usuwanie realizacji">Czy na pewno chcesz usunąć tą realizację?</div>');
+
+            $('#dialog-wrapper').dialog({
+
+                'modal' : true,
+                'autoOpen' : true,
+                'width' : 500,
+                'buttons': [ { text: "Ok", click: function() {
+                            
+                            $('#dialog-wrapper').remove();
+                            deleteRealization(id);
+                            
+                        }},
+                        { text: "Anuluj", click: function() { $('#dialog-wrapper').remove(); } } ],
+                close : function( event, ui ){
+
+                    $('#dialog-wrapper').remove();
+
+                }
+
+            });
+
+    });
 });
 
-function addRealization(title, image, text, date, used_technologies)
+function addRealization(title, image, text, intro, date, used_technologies)
 {
     $.post("index.php?action=add_realization", { 
         title: title,
         image: image,
         text: text,
+        introduction: intro,
         date: date,
         used_technologies: used_technologies
     }, function(resp){
@@ -149,9 +195,73 @@ function addRealization(title, image, text, date, used_technologies)
 
             });
         }
-        else
+        else if(!resp || resp === '')
         {
-            //dodac pola do bledow w formatce i komunikat bledu tutaj!!!!!!!!!!!!!!!!!
+            $('body').append('<div id="dialog-wrapper" title="Błąd dodawania realizacji">Nowa realizacja nie została pomyślnie dodana do bazy danych!</div>');
+            
+            $('#dialog-wrapper').dialog({
+
+                'modal' : true,
+                'autoOpen' : true,
+                'width' : 500,
+                'buttons': [ { text: "Ok", click: function() { $('#dialog-wrapper').remove(); } } ],
+                close : function( event, ui ){
+
+                    $('#dialog-wrapper').remove();
+
+                }
+
+            });
+        }
+    });
+}
+
+function deleteRealization(id)
+{
+    $.post("index.php?action=delete_realization", { 
+        id: id
+    }, function(resp){
+        if(resp)
+        {
+            $('body').append('<div id="dialog-wrapper" title="Usuwanie realizacji">Pomyślnie usunięto realizację!</div>');
+
+            $('#dialog-wrapper').dialog({
+
+                'modal' : true,
+                'autoOpen' : true,
+                'width' : 500,
+                'buttons': [ { text: "Ok", click: function() {
+                            
+                            $('#dialog-wrapper').remove();
+                            location.href = "index.php?view=admin";
+                            
+                        } } ],
+                close : function( event, ui ){
+
+                    $('#dialog-wrapper').remove();
+                    location.href = "index.php?view=admin";
+
+                }
+
+            });
+        }
+        else if(!resp || resp === '')
+        {
+            $('body').append('<div id="dialog-wrapper" title="Błąd usuwania realizacji">Realizacja nie została pomyślnie usunięta z bazy danych!</div>');
+            
+            $('#dialog-wrapper').dialog({
+
+                'modal' : true,
+                'autoOpen' : true,
+                'width' : 500,
+                'buttons': [ { text: "Ok", click: function() { $('#dialog-wrapper').remove(); } } ],
+                close : function( event, ui ){
+
+                    $('#dialog-wrapper').remove();
+
+                }
+
+            });
         }
     });
 }

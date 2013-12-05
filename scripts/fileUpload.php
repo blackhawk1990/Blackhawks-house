@@ -1,8 +1,4 @@
 <?php
-    
-    require_once '/../class.Path.php';
-    
-    $oPath = new Path();
 
     if (!empty($_FILES)) 
     {
@@ -16,13 +12,13 @@
         
         if($file_ext == 'jpg' || $file_ext == 'bmp' || $file_ext == 'png')
         {
-            require_once '/../' . $oPath->getClassPath() . 'class.SimpleImage.php';
+            require_once '/../' . CLASSES_PATH . 'class.SimpleImage.php';
             
             $oSimpleImage = new SimpleImage();
 
-            $oSimpleImage->load('/../../' . $oPath->getRealizationImagesPath() . $_FILES['Filedata']['name']);
+            $oSimpleImage->load('/../../' . UPLOADS_PATH . REALIZATION_IMAGES_PATH . $_FILES['Filedata']['name']);
             $oSimpleImage->resizeToWidth(300);
-            $oSimpleImage->save('/../../' . $oPath->getRealizationImagesPath() . $_FILES['Filedata']['name']);
+            $oSimpleImage->save('/../../' . UPLOADS_PATH . REALIZATION_IMAGES_PATH . $_FILES['Filedata']['name']);
         }
         
         echo $_FILES['Filedata']['name'];

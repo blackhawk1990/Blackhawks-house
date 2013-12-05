@@ -15,13 +15,13 @@ class Log
     
     public function login()
     {
-        $db = new Db();
-        $db->getUsersData();
+        $oUser = new User();
+        $oUserData = $oUser->getUsersData();
 
-        while (($user = $db->_query->fetch_assoc()) != NULL) {
-            if (($this->_login == $user['login'] && md5($this->_password) == $user['password'])) {
+        while (($aUser = $oUserData->fetch_assoc()) != NULL) {
+            if (($this->_login == $aUser['login'] && md5($this->_password) == $aUser['password'])) {
                 $_SESSION['login'] = $this->_login;
-                $_SESSION['role'] = $user['role'];
+                $_SESSION['role'] = $aUser['role'];
 
                 return true;
             }
