@@ -500,32 +500,7 @@
             $page->assign['common-head-content'] .= "\n\t" . $view_class->addScriptFile($path->getJSScriptsPath() . "ui/uploadify/jquery.uploadify.v2.1.4.min.js");
             $page->assign['common-head-content'] .= "\n\t" . $view_class->addScriptFile($path->getJSScriptsPath() . "admin_panel.js");
             
-            $oAddRealizationFormView = new Template();
-            $oAddRealizationFormView->assign['upload_path'] = UPLOADS_PATH . REALIZATION_IMAGES_PATH;
-            
-            $oRealizationOptionsView = new Template();
-            
-            //odczyt z bazy danych listy wszystkich realizacji i generowanie listy
-            $oRealization = new Realization();
-            $oRealizationData = $oRealization->getRealizations();
-            $sRealizationsList = '';
-            while(($aRealization = $oRealizationData->fetch_assoc()) != NULL)
-            {
-                $oDate = new Date('pl', $aRealization['date']);
-                $sRealizationsList .= "<tr>
-                                            <td>" . $aRealization['title'] . "</td>
-                                            <td>" . $oDate->getDate() . "</td>
-                                            <td>
-                                                <a href=\"#\" id=\"" . $aRealization['id'] . "\" class=\"delete table-option\"><img src=\"" . STYLES_PATH . "img/icons/trash_can.png\" /></a>
-                                            </td>
-                                       </tr>";
-            }
-            
-            $oRealizationOptionsView->assign['realizations_list'] = $sRealizationsList;
-            
             $view->assign['login'] = $_SESSION['login'];
-            $view->assign['add_realization_form'] = $oAddRealizationFormView->parse(INCLUDES_PATH . 'add_realization_form.html');
-            $view->assign['realization_options_view'] = $oRealizationOptionsView->parse(INCLUDES_PATH . 'realization_options_view.html');
             
             $page->assign['view-content'] = $view->parse('templates/admin.html');
         }

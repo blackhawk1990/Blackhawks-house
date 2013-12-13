@@ -659,6 +659,18 @@ body {
         overflow: hidden;
         margin: 40px auto 0 auto;
 }
+.errorWrapper
+{
+        width: 400px;
+        margin: 20px auto;
+        font-size: 24px;
+        text-align: center;
+}
+.errorText
+{
+        color: rgb(255, 0, 0);
+        text-transform: none;
+}
 #body #contact-form .errorText,
 #body #add-realization-form .errorText
 {
@@ -1034,6 +1046,12 @@ body {
 .table-option:hover
 {
     opacity: 0.8;
+}
+
+.loader-big
+{
+    width: 42px;
+    margin: 20px auto;
 }
 
 /*****************tooltip**********************/

@@ -1,7 +1,5 @@
 <?php
 
-require_once CLASSES_PATH . 'class.Db.php';
-
 /**
  * Description of User
  *

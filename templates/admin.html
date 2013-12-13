@@ -4,17 +4,9 @@
         
         <div id="login-status">Witaj {$login}! <input type="button" id="logout-but" value="Wyloguj" /></div>
         
-        <div id="add-realization-wrapper" class="admin-option-content">
-
-            {$add_realization_form}
+        <div id="add-realization-wrapper" class="admin-option-content"></div>
         
-        </div>
-        
-        <div id="realization-options-wrapper" class="admin-option-content">
-
-            {$realization_options_view}
-        
-        </div>
+        <div id="realization-options-wrapper" class="admin-option-content"></div>
         
         <div id="add-slider" class="admin-option-content">
             
@@ -29,8 +21,8 @@
         <div id="admin-menu">
             
             <ul>
-                <li><a href="#add-realization-wrapper"><div>Dodaj realizację</div></a></li>
-                <li><a href="#realization-options-wrapper"><div>Opcje realizacji</div></a></li>
+                <li><a href="#add-realization-wrapper" onclick="loadMenuTab(this, 'add_realization');return false;"><div>Dodaj realizację</div></a></li>
+                <li><a href="#realization-options-wrapper" onclick="loadMenuTab(this, 'realization_options');return false;"><div>Opcje realizacji</div></a></li>
                 <li><a href="#add-slider"><div>Dodaj slajd</div></a></li>
             </ul>
             

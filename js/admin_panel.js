@@ -1,12 +1,22 @@
 $(function(){
     
+    $('#admin-menu li:eq(0) div').css({ 'background-color' : '#fff600', 'box-shadow' : '0 0 2px #000000' });
+    $('#body .content .admin-option-content').not('.admin-option-content:eq(0)').hide();
+    init();
+    
+});
+
+function init()
+{
+    //****************************<init menu tab view>***************************************************//
+    var menuFirstPosViewName = $('#admin-menu li:eq(0) a').attr('href').substring(1, $('#admin-menu li:eq(0) a').attr('href').indexOf('-wrapper'));
+    loadMenuTab($('#admin-menu li:eq(0)').find('a'), menuFirstPosViewName);
+    //****************************</init menu tab view>*************************************************//
+    
     var uploadPath = $('#add-realization-form #file-upload-path').val();
     
     //****************************<admin menu>***************************************************//
-    $('#body .content .admin-option-content').not('.admin-option-content:eq(0)').hide();
-    $('#admin-menu li:eq(0) div').css({ 'background-color' : '#fff600', 'box-shadow' : '0 0 2px #000000' });
-    
-    $('#admin-menu li a').click(function(e){
+    $('#admin-menu li a').live("click", (function(e){
         
         e.preventDefault();
         
@@ -16,7 +26,7 @@ $(function(){
         $(this).parent('li').find('div').css({ 'background-color' : '#fff600', 'box-shadow' : '0 0 2px #000000' });
         $($(this).attr('href')).fadeIn('fast');
         
-    });
+    }));
     //****************************</admin menu>**************************************************//
     
     //kalendarz
@@ -165,7 +175,37 @@ $(function(){
             });
 
     });
-});
+}
+
+function loadMenuTab(clicked, view_name)
+{
+    console.log(clicked);
+    if($($(clicked).attr('href')).find('#error').size === 0 || $($(clicked).attr('href')).html() === '')
+    {
+        $($(clicked).attr('href')).append('<div class="loader-big"><img src="styles/img/loader_big.gif" /></div>');
+        
+        $.post("scripts/menuTabLoad.php", { 
+            v: view_name
+        }, function(resp){
+            
+            //obsluga bledow
+            switch(resp)
+            {
+                case '0':
+                    $($(clicked).attr('href')).html("<div id=\"error\" class=\"errorWrapper\"><span class=\"errorText\">Strona nie istnieje!</span></div>");
+                    break;
+                case '':
+                    $($(clicked).attr('href')).html("<div id=\"error\" class=\"errorWrapper\"><span class=\"errorText\">Błąd ładowania zawartości!</span></div>");
+                    break;
+                default:
+                    $($(clicked).attr('href')).html(resp);
+                    init();
+                    break;
+            }
+
+        });
+    }
+}
 
 function addRealization(title, image, text, intro, date, used_technologies)
 {

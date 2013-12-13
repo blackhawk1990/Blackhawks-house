@@ -31,7 +31,12 @@ class Template
     }
     
     /**
-     * Parses view template to HTML site ready to view in browser
+     * Parses view template to HTML site ready to view in browser<br />
+     * 
+     * Errors:
+     * <ul>
+     *  <li><b>0</b> - file not exists</li>
+     * </ul>
      * 
      * @param string $file_name Template file name in templates folder which is parsed to view
      * @return string Parsed from template HTML site
@@ -42,7 +47,6 @@ class Template
         //sprawdzenie czy plik istnieje
         if(!file_exists($file_name))
         {
-            echo "File not exists!";
             return 0;
         }
         
