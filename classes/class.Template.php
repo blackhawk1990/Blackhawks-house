@@ -17,13 +17,16 @@ class Template
         
         $sReturnHTML = '';
         
-        while(($menuItem = $menuData->fetch_assoc()) != NULL)
+        if($menuData != NULL)
         {
-            if($menuItem['count'] != 0)
+            while(($menuItem = $menuData->fetch_assoc()) != NULL)
             {
-                $sReturnHTML .= ((isset($_GET['view']) && $_GET['view'] == $menuItem['name']) ? '<li class="select">' : '<li>') .
-                                    '<a href="?view=' . $menuItem['name'] . '">' . strtoupper($menuItem['label']) . '</a>
-                                </li>';
+                if($menuItem['count'] != 0)
+                {
+                    $sReturnHTML .= ((isset($_GET['view']) && $_GET['view'] == $menuItem['name']) ? '<li class="select">' : '<li>') .
+                                        '<a href="?view=' . $menuItem['name'] . '">' . strtoupper($menuItem['label']) . '</a>
+                                    </li>';
+                }
             }
         }
         
