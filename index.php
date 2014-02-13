@@ -37,7 +37,8 @@
     
     $page->assign['title'] = "Blackhawk's House";
     
-    $page->assign['copyrights'] = "&copy; Łukasz Traczewski 2011 - 2013, icon by <a href = \"http://linkgilbs.deviantart.com/\" target = \"_blank\">Jake Gilbert</a><a href = \"http://validator.w3.org/check?uri=http%3A%2F%2Fblackhawkshouse.pl%2F\" target = \"_blank\"><img src = \"styles/img/HTML5_logo.png\" alt = \"Logo HTML 5\" /></a><br />Ostatnia aktualizacja: 27-11-2013";
+//    $page->assign['copyrights'] = "&copy; Łukasz Traczewski 2011 - 2014, icon by <a href = \"http://linkgilbs.deviantart.com/\" target = \"_blank\">Jake Gilbert</a><a href = \"http://validator.w3.org/check?uri=http%3A%2F%2Fblackhawkshouse.pl%2F\" target = \"_blank\"><img src = \"styles/img/HTML5_logo.png\" alt = \"Logo HTML 5\" /></a><br />Ostatnia aktualizacja: 06-02-2014";
+    $page->assign['copyrights'] = "&copy; Łukasz Traczewski 2011 - 2014, icon by <a href = \"http://linkgilbs.deviantart.com/\" target = \"_blank\">Jake Gilbert</a><br />Ostatnia aktualizacja: 06-02-2014";
     
     $view_class = new View();
     
@@ -188,23 +189,26 @@
             $oRealizationData = $oRealization->getRealizations();
 
             $i = 0;
-
-            while(($news = $oRealizationData->fetch_assoc()) != NULL)
+            
+            if($oRealizationData != NULL)
             {
-                if($i < NUM_OF_REALIZATIONS_VIEWED)
+                while(($news = $oRealizationData->fetch_assoc()) != NULL)
                 {
-                    $view->assign['right-col-content'] .= "<li>
-                                                            <h3>" . $news['title'] . "</h3>
-                                                            <div>
-                                                                <p>
-                                                                    " . $news['introduction'] . "
-                                                                </p>
-                                                                <a href=\"?view=realization&id=" . $news['id']  . "\" class=\"more\">więcej</a>
-                                                            </div>
-                                                            <img src=\"" . UPLOADS_PATH . REALIZATION_IMAGES_PATH . $news['image'] . "\" alt=\"\">
-                                                          </li>";
+                    if($i < NUM_OF_REALIZATIONS_VIEWED)
+                    {
+                        $view->assign['right-col-content'] .= "<li>
+                                                                <h3>" . $news['title'] . "</h3>
+                                                                <div>
+                                                                    <p>
+                                                                        " . $news['introduction'] . "
+                                                                    </p>
+                                                                    <a href=\"?view=realization&id=" . $news['id']  . "\" class=\"more\">więcej</a>
+                                                                </div>
+                                                                <img src=\"" . UPLOADS_PATH . REALIZATION_IMAGES_PATH . $news['image'] . "\" alt=\"\">
+                                                              </li>";
+                    }
+                    $i++;
                 }
-                $i++;
             }
             
             $view->assign['right-col-content'] .= '</ul>';

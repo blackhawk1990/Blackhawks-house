@@ -9,7 +9,7 @@ $(function(){
 function init()
 {
     //****************************<init menu tab view>***************************************************//
-    var menuFirstPosViewName = $('#admin-menu li:eq(0) a').attr('href').substring(1, $('#admin-menu li:eq(0) a').attr('href').indexOf('-wrapper'));
+    var menuFirstPosViewName = $('#admin-menu li:eq(0) a').attr('href').substring(1, $('#admin-menu li:eq(0) a').attr('href').indexOf('-wrapper')).replace("-", "_");
     loadMenuTab($('#admin-menu li:eq(0)').find('a'), menuFirstPosViewName);
     //****************************</init menu tab view>*************************************************//
     

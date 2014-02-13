@@ -4,7 +4,8 @@
 
     if(isset($_POST['v']))
     {
-        $sView = mysql_real_escape_string(trim($_POST['v']));
+        $oDbHnd = @new mysqli(DB_HOST, DB_LOGIN, DB_PASS, DB_NAME);
+        $sView = mysqli_real_escape_string($oDbHnd, trim($_POST['v']));
         
         $oTemplate = new Template();
         $oTemplate->assign['upload_path'] = UPLOADS_PATH . REALIZATION_IMAGES_PATH;
@@ -29,8 +30,8 @@
             
             $oTemplate->assign['realizations_list'] = $sRealizationsList;
         }
-        
-        echo $oTemplate->parse('../' . INCLUDES_PATH . $sView . '_view.html');
+
+        echo $oTemplate->parse(__DIR__ . '/../' . INCLUDES_PATH . $sView . '_view.html');
     }
 
 ?>

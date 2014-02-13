@@ -27,10 +27,13 @@ class Slider
         $sSliderContent = '';
         
         $i = 1;
-        while(($aSlide = $this->sliderData->fetch_assoc()) != NULL)
+        if($this->sliderData != NULL)
         {
-            $sSliderContent .= $this->getSlide($aSlide['title'], $aSlide['content'], $aSlide['image'], $i);
-            $i++;
+            while(($aSlide = $this->sliderData->fetch_assoc()) != NULL)
+            {
+                $sSliderContent .= $this->getSlide($aSlide['title'], $aSlide['content'], $aSlide['image'], $i);
+                $i++;
+            }
         }
         
         if($i === 1) //slides doesn't exist
