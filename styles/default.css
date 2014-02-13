@@ -641,6 +641,7 @@ body {
 {
         float: left;
         width: 300px;
+        max-height: 280px;
         margin-left: 20px;
 }
 #body .realization h1,

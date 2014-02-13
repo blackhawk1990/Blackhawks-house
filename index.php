@@ -127,9 +127,10 @@
             if(!empty($_POST))
             {
                 $aEscaped = array();
+                $oDbHnd = @new mysqli(DB_HOST, DB_LOGIN, DB_PASS, DB_NAME);
                 foreach($_POST as $key => $value)
                 {
-                    $aEscaped[$key] = mysql_real_escape_string(trim($value));
+                    $aEscaped[$key] = mysqli_real_escape_string($oDbHnd, trim($value));
                 }
                 
                 $oDb = new Db();
@@ -141,7 +142,8 @@
         {
             if(!empty($_POST))
             {
-                $iId = mysql_real_escape_string(trim($_POST['id']));
+                $oDbHnd = @new mysqli(DB_HOST, DB_LOGIN, DB_PASS, DB_NAME);
+                $iId = mysqli_real_escape_string($oDbHnd, trim($_POST['id']));
                 
                 $oRealization = new Realization();
                 $sRelizationImageName = $oRealization->getRealizationImageName($iId);

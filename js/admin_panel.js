@@ -82,17 +82,17 @@ function init()
         'multi': false,
         'removeCompleted': false,
         'queueID': 'file-queue',
-        'onComplete': function(event, data, fileObj) 
+        'onComplete': function(event, ID, fileObj, response, data) 
         {
             var title = $('#title').val();
-            var image = fileObj.name;
+            var image = response;
             var text = $('#text').val();
             var intro = $('#intro').val();
             var date = $('#date').val();
             var used_technologies = $('#used-technologies-hidden').val().replace(",", ", ");
             
             addRealization(title, image, text, intro, date, used_technologies);
-        } 
+        }
     });
     
     //wysyłanie formatki dodawania realizacji
@@ -179,7 +179,6 @@ function init()
 
 function loadMenuTab(clicked, view_name)
 {
-    console.log(clicked);
     if($($(clicked).attr('href')).find('#error').size === 0 || $($(clicked).attr('href')).html() === '')
     {
         $($(clicked).attr('href')).append('<div class="loader-big"><img src="styles/img/loader_big.gif" /></div>');
