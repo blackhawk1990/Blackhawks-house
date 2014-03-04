@@ -24,38 +24,36 @@
             require_once MODELS_PATH . $sFile;
         }
     }
-    
-    $path = new Path();
 
     $page = new Template();
 
     //ustawianie opcji
-    $page->assign['charset'] = "UTF-8";
-    $page->assign['main-page'] = Path::$_main_path;
+    $page->assign['charset'] = PAGE_CHARSET;
+    $page->assign['main-page'] = MAIN_PATH;
     $page->assign['scripts'] = '';
     $page->assign['common-head-content'] = '';
     
     $page->assign['title'] = "Blackhawk's House";
     
 //    $page->assign['copyrights'] = "&copy; Łukasz Traczewski 2011 - 2014, icon by <a href = \"http://linkgilbs.deviantart.com/\" target = \"_blank\">Jake Gilbert</a><a href = \"http://validator.w3.org/check?uri=http%3A%2F%2Fblackhawkshouse.pl%2F\" target = \"_blank\"><img src = \"styles/img/HTML5_logo.png\" alt = \"Logo HTML 5\" /></a><br />Ostatnia aktualizacja: 06-02-2014";
-    $page->assign['copyrights'] = "&copy; Łukasz Traczewski 2011 - 2014, icon by <a href = \"http://linkgilbs.deviantart.com/\" target = \"_blank\">Jake Gilbert</a><br />Ostatnia aktualizacja: 06-02-2014";
+    $page->assign['copyrights'] = "&copy; Łukasz Traczewski 2011 - 2014, icon by <a href = \"http://linkgilbs.deviantart.com/\" target = \"_blank\">Jake Gilbert</a><br />Ostatnia aktualizacja: 04-03-2014";
     
     $view_class = new View();
     
     //****************************************<STYLES>****************************************//
     
-    $page->assign['common-head-content'] .= "\n\t" . $view_class->addStylesheetFile($path->getStylesPath() . 'default.css');
-    $page->assign['common-head-content'] .= "\n\t" . $view_class->addStylesheetFile($path->getStylesPath() . 'jquery-ui-1.10.3.custom.css');
+    $page->assign['common-head-content'] .= "\n\t" . $view_class->addStylesheetFile(STYLES_PATH . 'default.css');
+    $page->assign['common-head-content'] .= "\n\t" . $view_class->addStylesheetFile(STYLES_PATH . 'jquery-ui-1.10.3.custom.css');
     
     //****************************************</STYLES>****************************************//
     
     
     //****************************************<SCRIPTS>***************************************//
     
-    $page->assign['common-head-content'] .= "\n\t" . $view_class->addScriptFile($path->getJSScriptsPath() . 'ui/jquery-1.8.2.min.js');
-    $page->assign['common-head-content'] .= "\n\n\t" . $view_class->addScriptFile($path->getJSScriptsPath() . 'main.js');
-    $page->assign['common-head-content'] .= "\n\t" . $view_class->addScriptFile($path->getJSScriptsPath() . 'ui/jquery-ui-1.10.3.custom.min.js');
-    $page->assign['common-head-content'] .= "\n\t" . $view_class->addScriptFile($path->getJSScriptsPath() . 'ui/jquery.ui.datepicker-pl.js');
+    $page->assign['common-head-content'] .= "\n\t" . $view_class->addScriptFile(JS_SCRIPTS_PATH . 'ui/jquery-1.8.2.min.js');
+    $page->assign['common-head-content'] .= "\n\n\t" . $view_class->addScriptFile(JS_SCRIPTS_PATH . 'main.js');
+    $page->assign['common-head-content'] .= "\n\t" . $view_class->addScriptFile(JS_SCRIPTS_PATH . 'ui/jquery-ui-1.10.3.custom.min.js');
+    $page->assign['common-head-content'] .= "\n\t" . $view_class->addScriptFile(JS_SCRIPTS_PATH . 'ui/jquery.ui.datepicker-pl.js');
     
     //****************************************</SCRIPTS>***************************************//
     
@@ -172,9 +170,9 @@
         $view->assign['left-col-content'] = '';
         $view->assign['right-col-content'] = '';
         
-        $page->assign['common-head-content'] .= "\n\t<script type=\"text/javascript\" src=\"" . $path->getJSScriptsPath() . "ui/jquery.carouFredSel-6.2.0-packed.js\"></script>";
-        $page->assign['common-head-content'] .= "\n\t<script type=\"text/javascript\" src=\"" . $path->getJSScriptsPath() . "carousel.js\"></script>";
-        $page->assign['common-head-content'] .= "\n\t<script type=\"text/javascript\" src=\"" . $path->getJSScriptsPath() . "facebook.js\"></script>";
+        $page->assign['common-head-content'] .= "\n\t<script type=\"text/javascript\" src=\"" . JS_SCRIPTS_PATH . "ui/jquery.carouFredSel-6.2.0-packed.js\"></script>";
+        $page->assign['common-head-content'] .= "\n\t<script type=\"text/javascript\" src=\"" . JS_SCRIPTS_PATH . "carousel.js\"></script>";
+        $page->assign['common-head-content'] .= "\n\t<script type=\"text/javascript\" src=\"" . JS_SCRIPTS_PATH . "facebook.js\"></script>";
         
         $view->assign['right-col-content'] = '<h3>Najnowsze realizacje</h3>
                                                 <ul>';
@@ -304,9 +302,6 @@
     {
         //tytul strony
         $page->assign['title'] = "Kontakt";
-        
-        //skrypty
-        $page->assign['common-head-content'] .= "\n\n\t<script type=\"text/javascript\" src=\"js/jquery-1.8.2.min.js\"></script>";
         
         $view = new Template();
         $view->assign['contact-form-action'] = "index.php?action=contact";
@@ -453,6 +448,9 @@
         }
         else 
         {
+            //paginator
+            $view->assign['paginator'] = "<span style=\"font-size:24px\">DODAĆ PAGINACJĘ DO STRONY!!!!</span>";
+            
             //przekazanie zawartosci widoku do layoutu
             $page->assign['view-content'] = $view->parse('templates/portfolio.html');
         }
@@ -482,7 +480,7 @@
     {
         //tytul strony
         $page->assign['title'] = "Strefa administracyjna";
-        $page->assign['common-head-content'] .= "\n\t" . $view_class->addScriptFile($path->getJSScriptsPath() . "logscript.js");
+        $page->assign['common-head-content'] .= "\n\t" . $view_class->addScriptFile(JS_SCRIPTS_PATH . "logscript.js");
         
         $view = new Template();
         $view_class = new View();
@@ -492,19 +490,19 @@
         {
             $log_form = new Template();
 
-            $view->assign['log-form'] = $log_form->parse($path->getIncludesPath() . "log_form.html");
+            $view->assign['log-form'] = $log_form->parse(INCLUDES_PATH . "log_form.html");
 
             $page->assign['view-content'] = $view->parse('templates/login.html');
         }
         else //dla zalogowanego
         {
-            $page->assign['common-head-content'] .= "\n\t" . $view_class->addStylesheetFile($path->getStylesPath() . "bootstrap-tagmanager.css");
+            $page->assign['common-head-content'] .= "\n\t" . $view_class->addStylesheetFile(STYLES_PATH . "bootstrap-tagmanager.css");
             
-            $page->assign['common-head-content'] .= "\n\t" . $view_class->addScriptFile($path->getJSScriptsPath() . "ckeditor.js");
-            $page->assign['common-head-content'] .= "\n\t" . $view_class->addScriptFile($path->getJSScriptsPath() . "ui/bootstrap-tagmanager.js");
-            $page->assign['common-head-content'] .= "\n\t" . $view_class->addScriptFile($path->getJSScriptsPath() . "ui/uploadify/swfobject.js");
-            $page->assign['common-head-content'] .= "\n\t" . $view_class->addScriptFile($path->getJSScriptsPath() . "ui/uploadify/jquery.uploadify.v2.1.4.min.js");
-            $page->assign['common-head-content'] .= "\n\t" . $view_class->addScriptFile($path->getJSScriptsPath() . "admin_panel.js");
+            $page->assign['common-head-content'] .= "\n\t" . $view_class->addScriptFile(JS_SCRIPTS_PATH . "ckeditor.js");
+            $page->assign['common-head-content'] .= "\n\t" . $view_class->addScriptFile(JS_SCRIPTS_PATH . "ui/bootstrap-tagmanager.js");
+            $page->assign['common-head-content'] .= "\n\t" . $view_class->addScriptFile(JS_SCRIPTS_PATH . "ui/uploadify/swfobject.js");
+            $page->assign['common-head-content'] .= "\n\t" . $view_class->addScriptFile(JS_SCRIPTS_PATH . "ui/uploadify/jquery.uploadify.v2.1.4.min.js");
+            $page->assign['common-head-content'] .= "\n\t" . $view_class->addScriptFile(JS_SCRIPTS_PATH . "admin_panel.js");
             
             $view->assign['login'] = $_SESSION['login'];
             

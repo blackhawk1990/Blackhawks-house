@@ -2,8 +2,11 @@
 
 /*******************MAIN CONFIGURATION FILE************************/
 
+define("PAGE_CHARSET", 'UTF-8');
+define("MAIN_PATH", './');
 define("CLASSES_PATH", 'classes/');
 define("STYLES_PATH", 'styles/');
+define("JS_SCRIPTS_PATH", 'js/');
 define("MODELS_PATH", 'models/');
 define("INCLUDES_PATH", 'includes/');
 define("UPLOADS_PATH", 'uploads/');

@@ -1,7 +1,5 @@
 <?php
 
-require_once 'class.Db.php';
-
 class Log 
 {
     private $_login;

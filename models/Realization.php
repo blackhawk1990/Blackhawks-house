@@ -22,6 +22,15 @@ class Realization extends Db
         
         return $this->query($this->_Hnd, $sQuery);
     }
+    
+    public function getRealizationsInterval($iStart, $iEnd)
+    {
+        $sQuery = "SELECT * FROM `" . $this->_sTableName . "`
+            ORDER BY `date` DESC
+            LIMIT " . $iStart . "," . $iEnd;
+        
+        return $this->query($this->_Hnd, $sQuery);
+    }
 
     public function getRealizationById($iId = NULL)
     {
