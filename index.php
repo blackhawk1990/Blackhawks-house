@@ -308,15 +308,15 @@
         
         $page->assign['view-content'] = $view->parse('templates/contact.html');
     }
-    else if($_GET['view'] == 'services')
-    {
-        //tytul strony
-        $page->assign['title'] = "Oferta";
-        
-        $view = new Template();
-        
-        $page->assign['view-content'] = $view->parse('templates/services.html');
-    }
+//    else if($_GET['view'] == 'services')
+//    {
+//        //tytul strony
+//        $page->assign['title'] = "Oferta";
+//        
+//        $view = new Template();
+//        
+//        $page->assign['view-content'] = $view->parse('templates/services.html');
+//    }
     else if($_GET['view'] == 'realization')
     {
         $view = new Template();
@@ -456,26 +456,26 @@
         }
         
     }
-    else if($_GET['view'] == 'about')
-    {
-        //tytul strony
-        $page->assign['title'] = "O mnie";
-        
-        $view = new Template();
-        
-        //przekazanie zawartosci widoku do layoutu
-        $page->assign['view-content'] = $view->parse('templates/about.html');
-    }
-    else if($_GET['view'] == 'works')
-    {
-        //tytul strony
-        $page->assign['title'] = "Moje prace";
-        
-        $view = new Template();
-        
-        //przekazanie zawartosci widoku do layoutu
-        $page->assign['view-content'] = $view->parse('templates/works.html');
-    }
+//    else if($_GET['view'] == 'about')
+//    {
+//        //tytul strony
+//        $page->assign['title'] = "O mnie";
+//        
+//        $view = new Template();
+//        
+//        //przekazanie zawartosci widoku do layoutu
+//        $page->assign['view-content'] = $view->parse('templates/about.html');
+//    }
+//    else if($_GET['view'] == 'works')
+//    {
+//        //tytul strony
+//        $page->assign['title'] = "Moje prace";
+//        
+//        $view = new Template();
+//        
+//        //przekazanie zawartosci widoku do layoutu
+//        $page->assign['view-content'] = $view->parse('templates/works.html');
+//    }
     else if($_GET['view'] == 'admin')
     {
         //tytul strony
