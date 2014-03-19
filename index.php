@@ -509,6 +509,15 @@
             $page->assign['view-content'] = $view->parse('templates/admin.html');
         }
     }
+    else
+    {
+        //tytul strony
+        $page->assign['title'] = "Błąd 404";
+        
+        $view = new Template();
+        
+        $page->assign['view-content'] = $view->parse('templates/404.html');
+    }
     /**widoki**/
     
     //parsowanie layoutu
