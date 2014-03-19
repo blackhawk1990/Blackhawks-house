@@ -36,7 +36,7 @@
     $page->assign['title'] = "Blackhawk's House";
     
 //    $page->assign['copyrights'] = "&copy; Łukasz Traczewski 2011 - 2014, icon by <a href = \"http://linkgilbs.deviantart.com/\" target = \"_blank\">Jake Gilbert</a><a href = \"http://validator.w3.org/check?uri=http%3A%2F%2Fblackhawkshouse.pl%2F\" target = \"_blank\"><img src = \"styles/img/HTML5_logo.png\" alt = \"Logo HTML 5\" /></a><br />Ostatnia aktualizacja: 06-02-2014";
-    $page->assign['copyrights'] = "&copy; Łukasz Traczewski 2011 - 2014, icon by <a href = \"http://linkgilbs.deviantart.com/\" target = \"_blank\">Jake Gilbert</a><br />Ostatnia aktualizacja: 04-03-2014";
+    $page->assign['copyrights'] = "&copy; Łukasz Traczewski 2011 - 2014, icon by <a href = \"http://linkgilbs.deviantart.com/\" target = \"_blank\">Jake Gilbert</a><br />Ostatnia aktualizacja: 19-03-2014";
     
     $view_class = new View();
     
@@ -69,7 +69,7 @@
 					<a href="http://www.facebook.com/blackhawkprogrammer" target="_blank">facebook</a>
 				</li>
 				<li id="googleplus">
-					<a href="https://plus.google.com/u/0/100246819469400258433" target="_blank">googleplus</a>
+					<a href="https://plus.google.com/u/0/+ŁukaszTraczewski" target="_blank">googleplus</a>
 				</li>
                                 <li id="linkedin">
 					<a href="http://www.linkedin.com/profile/view?id=181259758" target="_blank">linkedin</a>
