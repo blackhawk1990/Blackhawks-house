@@ -23,5 +23,6 @@ define("DB_NAME", 'blackhawk');
 define("DB_LOGIN", 'root');
 define("DB_PASS", '');
 define("NUM_OF_REALIZATIONS_VIEWED", 2); //liczba widocznych nowych realizacji na str glownej
+define("PORTFOLIO_NUM_OF_REALIZATIONS_VIEWED", 2); //liczba pozycji na jednej stronie portfolio
 
 ?>

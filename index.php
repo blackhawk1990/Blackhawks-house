@@ -3,7 +3,7 @@
     //wylaczenie ostrzezen w php
     //error_reporting(E_ALL ^ E_WARNING);
     
-    include 'config/default.php';
+    require_once 'config/default.php';
 
     /*****************auto loading all classes in classes catalog*********************/
     $oClassesDir = dir(CLASSES_PATH);
@@ -421,10 +421,20 @@
         //inicjalizacja
         $view->assign['realizations'] = "";
         
-        //wczytywanie informacji z bazy danych
+        //*****<wczytywanie informacji z bazy danych (podzial na strony)>*****//
         $oRealization = new Realization();
-        $oRealizationData = $oRealization->getRealizations();
         $iNumOfRows = $oRealization->getNumberOfRows();
+        $iActualPage = 1;
+        
+        if(isset($_GET['p']))
+        {
+            $iActualPage = $_GET['p'];
+        }
+        
+        $iStartPos = ($iActualPage - 1) * PORTFOLIO_NUM_OF_REALIZATIONS_VIEWED;
+        $iEndPos = $iStartPos + PORTFOLIO_NUM_OF_REALIZATIONS_VIEWED;
+        $oRealizationData = $oRealization->getRealizationsInterval($iStartPos, $iEndPos);
+        //*****</wczytywanie informacji z bazy danych (podzial na strony)>****//
         
         $i = 0;
         while(($aRealizations = $oRealizationData->fetch_assoc()) != NULL)
@@ -461,9 +471,8 @@
         else 
         {
             //paginator
-            $oPaginator = new Paginator($iNumOfRows, 1, 1, "view=" . $_GET['view']);
+            $oPaginator = new Paginator($iNumOfRows, PORTFOLIO_NUM_OF_REALIZATIONS_VIEWED, $iActualPage, "view=" . $_GET['view']);
             $view->assign['paginator'] = $oPaginator->generatePaginator();
-            //$view->assign['paginator'] = "<span style=\"font-size:24px\">DODAĆ PAGINACJĘ DO STRONY!!!!</span>";
             
             //przekazanie zawartosci widoku do layoutu
             $page->assign['view-content'] = $view->parse(TEMPLATES_PATH . 'portfolio.html');
