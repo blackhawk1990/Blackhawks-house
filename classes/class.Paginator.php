@@ -2,17 +2,20 @@
 
 class Paginator 
 {
+    private $oTemplate;
+    private $iLength;
     private $iNumOfPosAtPage;
     private $iActualPage;
     private $sActualParams;
-    private $oDataRecords;
     
-    public function __construct($oRecords, $iNumOfPosAtPage, $iActualPage, $sActualParams) 
+    public function __construct($iLength, $iNumOfPosAtPage, $iActualPage, $sActualParams) 
     {
+        $this->oTemplate = new Template();
+        
+        $this->iLength = $iLength;
         $this->iNumOfPosAtPage = $iNumOfPosAtPage;
         $this->iActualPage = $iActualPage;
         $this->sActualParams = $sActualParams;
-        $this->$oDataRecords = $oRecords;
     }
     
     /**
@@ -23,31 +26,28 @@ class Paginator
     public function generatePaginator()
     {
         $sHTML = '';
-        $oDataRecords = $this->oDataRecords;
-        $i = 0;
-        $iLength = 0;
         
-        while($oDataRecords->fetch_all() != NULL)
-        {
-            $iLength++;
-        }
+        $iNumOfPages = ceil($this->iLength / $this->iNumOfPosAtPage);
         
-        $iNumOfPages = $iLength / $this->iNumOfPosAtPage;
+        $sHTML .= '<li><a href="?' . $this->sActualParams . '&p=1">&lt;</a></li>';
         
         for($i = 0;$i < $iNumOfPages;$i++)
         {
-            if($i == $this->iActualPage)
+            if(($i + 1) == $this->iActualPage)
             {
-                $sHTML .= '<a class="active" href="?' . $this->sActualParams . '&p=' . $this->iActualPage . '">' . $i . '</a>';
+                $sHTML .= '<li class="active"><a href="?' . $this->sActualParams . '&p=' . $this->iActualPage . '">' . ($i + 1) . '</a></li>';
             }
             else
             {
-                $sHTML .= '<a href="?' . $this->sActualParams . '&p=' . $this->iActualPage . '">' . $i . '</a>';
+                $sHTML .= '<li><a href="?' . $this->sActualParams . '&p=' . ($i + 1) . '">' . ($i + 1) . '</a></li>';
             }
-            $i++;
         }
         
-        return $sHTML;
+        $sHTML .= '<li><a href="?' . $this->sActualParams . '&p=' . $iNumOfPages . '">&gt;</a></li>';
+        
+        $this->oTemplate->assign['paginator'] = $sHTML;
+        
+        return $this->oTemplate->parse(INCLUDES_PATH . 'paginator.html');
     }
 }
 

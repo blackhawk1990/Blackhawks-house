@@ -606,21 +606,29 @@ body {
     width: 220px;
     padding: 10px 0;
 }
-#body #realization-options-table
+#body #realization-options-table,
+#body #menu-options-table
 {
     border-collapse: collapse
 }
-#body #realization-options-table th
+#body #realization-options-table th,
+#body #menu-options-table th
 {
     border-bottom: 2px solid #B7C4C7;
     padding: 10px;
 }
-#body #realization-options-table td
+#body #realization-options-table td,
+#body #menu-options-table td
 {
     text-align: center;
     border-bottom: 2px solid #ffe600;
     padding: 10px;
     min-width: 200px;
+}
+#body #menu-options-table th,
+#body #menu-options-table td
+{
+    min-width: 150px;
 }
 #body .realization
 {
@@ -1053,6 +1061,30 @@ body {
 {
     width: 42px;
     margin: 20px auto;
+}
+
+/****************paginator*********************/
+#paginator-wrapper ul > li
+{
+    float: left;
+    display: block;
+    width: 14px;
+    height: 14px;
+    color: #94ACB3;
+    background: #FFE600;
+    margin: 2px;
+    padding: 4px;
+    text-align: center;
+}
+
+#paginator-wrapper ul > li.active
+{
+    background: #FFDE00;
+}
+
+#paginator-wrapper a
+{
+    text-decoration: none;
 }
 
 /*****************tooltip**********************/

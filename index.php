@@ -146,12 +146,23 @@
                 $oRealization = new Realization();
                 $sRelizationImageName = $oRealization->getRealizationImageName($iId);
                 
-                $oDb = new Db();
-                
                 if(unlink(UPLOADS_PATH . REALIZATION_IMAGES_PATH . $sRelizationImageName))
-                    echo $oDb->deleteRow($iId);
+                    echo $oRealization->deleteRow($iId);
                 else
                     echo 0;
+                
+                exit();
+            }
+        }
+        else if ($_GET['action'] == 'delete_menu_item')
+        {
+            if(!empty($_POST))
+            {
+                $oDbHnd = @new mysqli(DB_HOST, DB_LOGIN, DB_PASS, DB_NAME);
+                $iId = mysqli_real_escape_string($oDbHnd, trim($_POST['id']));
+                
+                $oMenu = new Menu();
+                echo $oMenu->deleteRow($iId);
                 
                 exit();
             }
@@ -296,7 +307,7 @@
         }
         
         //przekazanie zawartosci widoku do layoutu
-        $page->assign['view-content'] = $view->parse('templates/main.html');
+        $page->assign['view-content'] = $view->parse(TEMPLATES_PATH . 'main.html');
     }
     else if($_GET['view'] == 'contact')
     {
@@ -306,7 +317,7 @@
         $view = new Template();
         $view->assign['contact-form-action'] = "index.php?action=contact";
         
-        $page->assign['view-content'] = $view->parse('templates/contact.html');
+        $page->assign['view-content'] = $view->parse(TEMPLATES_PATH . 'contact.html');
     }
 //    else if($_GET['view'] == 'services')
 //    {
@@ -315,7 +326,7 @@
 //        
 //        $view = new Template();
 //        
-//        $page->assign['view-content'] = $view->parse('templates/services.html');
+//        $page->assign['view-content'] = $view->parse(TEMPLATES_PATH . 'services.html');
 //    }
     else if($_GET['view'] == 'realization')
     {
@@ -383,10 +394,10 @@
                 $view->assign['realization-url'] = $aRealization['url'] != '' ? '<a href="' . $aRealization['url'] . '" target="_blank">' . $aRealization['url'] . '</a>' : 'brak';
                 
                 //dodatkowa tresc ponizej opisu realizacji(nowe realizacje)
-                $view->assign['additional-content'] =  $new_realizations_view->parse('templates/new_realizations.html');
+                $view->assign['additional-content'] =  $new_realizations_view->parse(TEMPLATES_PATH . 'new_realizations.html');
                 
                 //przekazanie zawartosci widoku do layoutu
-                $page->assign['view-content'] = $view->parse('templates/realization.html');
+                $page->assign['view-content'] = $view->parse(TEMPLATES_PATH . 'realization.html');
             }
             else
             {
@@ -413,6 +424,7 @@
         //wczytywanie informacji z bazy danych
         $oRealization = new Realization();
         $oRealizationData = $oRealization->getRealizations();
+        $iNumOfRows = $oRealization->getNumberOfRows();
         
         $i = 0;
         while(($aRealizations = $oRealizationData->fetch_assoc()) != NULL)
@@ -449,10 +461,12 @@
         else 
         {
             //paginator
-            $view->assign['paginator'] = "<span style=\"font-size:24px\">DODAĆ PAGINACJĘ DO STRONY!!!!</span>";
+            $oPaginator = new Paginator($iNumOfRows, 1, 1, "view=" . $_GET['view']);
+            $view->assign['paginator'] = $oPaginator->generatePaginator();
+            //$view->assign['paginator'] = "<span style=\"font-size:24px\">DODAĆ PAGINACJĘ DO STRONY!!!!</span>";
             
             //przekazanie zawartosci widoku do layoutu
-            $page->assign['view-content'] = $view->parse('templates/portfolio.html');
+            $page->assign['view-content'] = $view->parse(TEMPLATES_PATH . 'portfolio.html');
         }
         
     }
@@ -464,7 +478,7 @@
 //        $view = new Template();
 //        
 //        //przekazanie zawartosci widoku do layoutu
-//        $page->assign['view-content'] = $view->parse('templates/about.html');
+//        $page->assign['view-content'] = $view->parse(TEMPLATES_PATH . 'about.html');
 //    }
 //    else if($_GET['view'] == 'works')
 //    {
@@ -474,7 +488,7 @@
 //        $view = new Template();
 //        
 //        //przekazanie zawartosci widoku do layoutu
-//        $page->assign['view-content'] = $view->parse('templates/works.html');
+//        $page->assign['view-content'] = $view->parse(TEMPLATES_PATH . 'works.html');
 //    }
     else if($_GET['view'] == 'admin')
     {
@@ -492,7 +506,7 @@
 
             $view->assign['log-form'] = $log_form->parse(INCLUDES_PATH . "log_form.html");
 
-            $page->assign['view-content'] = $view->parse('templates/login.html');
+            $page->assign['view-content'] = $view->parse(TEMPLATES_PATH . 'login.html');
         }
         else //dla zalogowanego
         {
@@ -506,7 +520,7 @@
             
             $view->assign['login'] = $_SESSION['login'];
             
-            $page->assign['view-content'] = $view->parse('templates/admin.html');
+            $page->assign['view-content'] = $view->parse(TEMPLATES_PATH . 'admin.html');
         }
     }
     else
@@ -516,11 +530,11 @@
         
         $view = new Template();
         
-        $page->assign['view-content'] = $view->parse('templates/404.html');
+        $page->assign['view-content'] = $view->parse(TEMPLATES_PATH . '404.html');
     }
     /**widoki**/
     
     //parsowanie layoutu
-    echo $page->parse('layouts/default.html');
+    echo $page->parse(LAYOUTS_PATH . DEFAULT_LAYOUT);
 
 ?>

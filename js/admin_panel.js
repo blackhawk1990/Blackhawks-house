@@ -175,6 +175,35 @@ function init()
             });
 
     });
+    
+    //usuwanie elementu menu
+    $('#menu-options-table .delete').live("click", function(){
+        
+        var id = $(this).attr('id');
+        
+        $('body').append('<div id="dialog-wrapper" title="Usuwanie elementu menu">Czy na pewno chcesz usunąć ten element?</div>');
+
+            $('#dialog-wrapper').dialog({
+
+                'modal' : true,
+                'autoOpen' : true,
+                'width' : 500,
+                'buttons': [ { text: "Ok", click: function() {
+                            
+                            $('#dialog-wrapper').remove();
+                            deleteMenuItem(id);
+                            
+                        }},
+                        { text: "Anuluj", click: function() { $('#dialog-wrapper').remove(); } } ],
+                close : function( event, ui ){
+
+                    $('#dialog-wrapper').remove();
+
+                }
+
+            });
+
+    });
 }
 
 function loadMenuTab(clicked, view_name)
@@ -287,6 +316,56 @@ function deleteRealization(id)
         else if(!resp || resp === '')
         {
             $('body').append('<div id="dialog-wrapper" title="Błąd usuwania realizacji">Realizacja nie została pomyślnie usunięta z bazy danych!</div>');
+            
+            $('#dialog-wrapper').dialog({
+
+                'modal' : true,
+                'autoOpen' : true,
+                'width' : 500,
+                'buttons': [ { text: "Ok", click: function() { $('#dialog-wrapper').remove(); } } ],
+                close : function( event, ui ){
+
+                    $('#dialog-wrapper').remove();
+
+                }
+
+            });
+        }
+    });
+}
+
+function deleteMenuItem(id)
+{
+    $.post("index.php?action=delete_menu_item", { 
+        id: id
+    }, function(resp){
+        if(resp)
+        {
+            $('body').append('<div id="dialog-wrapper" title="Usuwanie elementu menu">Pomyślnie usunięto element menu!</div>');
+
+            $('#dialog-wrapper').dialog({
+
+                'modal' : true,
+                'autoOpen' : true,
+                'width' : 500,
+                'buttons': [ { text: "Ok", click: function() {
+                            
+                            $('#dialog-wrapper').remove();
+                            location.href = "index.php?view=admin";
+                            
+                        } } ],
+                close : function( event, ui ){
+
+                    $('#dialog-wrapper').remove();
+                    location.href = "index.php?view=admin";
+
+                }
+
+            });
+        }
+        else if(!resp || resp === '')
+        {
+            $('body').append('<div id="dialog-wrapper" title="Błąd usuwania elementu menu">Element menu nie został pomyślnie usunięty z bazy danych!</div>');
             
             $('#dialog-wrapper').dialog({
 

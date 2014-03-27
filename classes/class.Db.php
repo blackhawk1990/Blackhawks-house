@@ -1,15 +1,6 @@
 <?php
     class Db
-    {
-//        public static $_host = "localhost";
-//        public static $_db = "blackhawk";
-//        public static $_login = "root";
-//        public static $_pass = "";
-//        public static $_host = "mysql.cba.pl";
-//        public static $_db = "musec_tk";
-//        public static $_login = "blhouse";
-//        public static $_pass = "skomp3l";
-        
+    {   
         protected $_Hnd = NULL;
         public $_query;
         private $_table;
@@ -134,6 +125,15 @@
                 WHERE `id` = " . $iId;
             
             return $this->query($this->_Hnd, $sQuery);
+        }
+        
+        public function getNumberOfRows()
+        {
+            $sQuery = "SELECT COUNT(`id`) AS `sum` FROM `" . $this->_table . "`";
+            $oData = $this->query($this->_Hnd, $sQuery);
+            $aNumOfRows = $oData->fetch_assoc();
+            
+            return $aNumOfRows['sum'];
         }
     }
 

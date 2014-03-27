@@ -30,6 +30,26 @@
             
             $oTemplate->assign['realizations_list'] = $sRealizationsList;
         }
+        else if($sView == 'menu_options')
+        {
+            //odczyt z bazy danych listy wszystkich pozycji menu i generowanie listy
+            $oMenu = new Menu();
+            $oMenuData = $oMenu->getMainMenuItems();
+            $sMenuItemsList = '';
+            while(($aMenuItem = $oMenuData->fetch_assoc()) != NULL)
+            {
+                $sMenuItemsList .= "<tr>
+                                            <td>" . $aMenuItem['name'] . "</td>
+                                            <td>" . $aMenuItem['label'] . "</td>
+                                            <td>" . $aMenuItem['count'] . "</td>
+                                            <td>
+                                                <a href=\"#\" id=\"" . $aMenuItem['id'] . "\" class=\"delete table-option\"><img src=\"" . STYLES_PATH . "img/icons/trash_can.png\" /></a>
+                                            </td>
+                                       </tr>";
+            }
+            
+            $oTemplate->assign['menu_options_list'] = $sMenuItemsList;
+        }
 
         echo $oTemplate->parse(__DIR__ . '/../' . INCLUDES_PATH . $sView . '_view.html');
     }
