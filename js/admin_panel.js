@@ -208,7 +208,7 @@ function init()
 
 function loadMenuTab(clicked, view_name)
 {
-    if($($(clicked).attr('href')).find('#error').size === 0 || $($(clicked).attr('href')).html() === '')
+    if($($(clicked).attr('href')).find('#error').size() === 0 || $($(clicked).attr('href')).html() === '')
     {
         $($(clicked).attr('href')).append('<div class="loader-big"><img src="styles/img/loader_big.gif" /></div>');
         

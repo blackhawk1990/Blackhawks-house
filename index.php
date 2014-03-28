@@ -36,7 +36,7 @@
     $page->assign['title'] = "Blackhawk's House";
     
 //    $page->assign['copyrights'] = "&copy; Łukasz Traczewski 2011 - 2014, icon by <a href = \"http://linkgilbs.deviantart.com/\" target = \"_blank\">Jake Gilbert</a><a href = \"http://validator.w3.org/check?uri=http%3A%2F%2Fblackhawkshouse.pl%2F\" target = \"_blank\"><img src = \"styles/img/HTML5_logo.png\" alt = \"Logo HTML 5\" /></a><br />Ostatnia aktualizacja: 06-02-2014";
-    $page->assign['copyrights'] = "&copy; Łukasz Traczewski 2011 - 2014, icon by <a href = \"http://linkgilbs.deviantart.com/\" target = \"_blank\">Jake Gilbert</a><br />Ostatnia aktualizacja: 27-03-2014";
+    $page->assign['copyrights'] = "&copy; Łukasz Traczewski 2011 - 2014, icon by <a href = \"http://linkgilbs.deviantart.com/\" target = \"_blank\">Jake Gilbert</a><br />Ostatnia aktualizacja: 28-03-2014";
     
     $view_class = new View();
     
@@ -381,6 +381,9 @@
             $realization_data = $oRealization->getRealizationById($_GET['id']);
             $aRealization = $realization_data->fetch_assoc();
             
+            //tytul strony
+            $page->assign['title'] = $aRealization['title'];
+            
             //jesli sa jakies realizacje
             if($aRealization != null)
             {
@@ -402,7 +405,7 @@
             else
             {
                 //przekazanie komunikatu do layoutu
-                $page->assign['view-content'] = '<div id="body" style="text-align: center;"><h1>Brak wykonanych realizacji</h1></div>';
+                $page->assign['view-content'] = '<div id="body" style="text-align: center;"><h1>Nie ma takiej realizacji!</h1></div>';
             }
         }
         else
@@ -415,56 +418,24 @@
     {
         //tytul strony
         $page->assign['title'] = "Portfolio";
+        //skrypty
+        $page->assign['common-head-content'] .= "\n\t" . $view_class->addScriptFile(JS_SCRIPTS_PATH . "paginator.js");
+        $page->assign['common-head-content'] .= "\n\t" . $view_class->addScriptFile(JS_SCRIPTS_PATH . "portfolio.js");
         
-        $view = new Template();
-        
-        //inicjalizacja
-        $view->assign['realizations'] = "";
+        $oView = new Template();
         
         //*****<wczytywanie informacji z bazy danych (podzial na strony)>*****//
         $oRealization = new Realization();
         $iNumOfRows = $oRealization->getNumberOfRows();
         $iActualPage = 1;
-        
+
         if(isset($_GET['p']))
         {
             $iActualPage = $_GET['p'];
         }
         
-        $iStartPos = ($iActualPage - 1) * PORTFOLIO_NUM_OF_REALIZATIONS_VIEWED;
-        $iEndPos = $iStartPos + PORTFOLIO_NUM_OF_REALIZATIONS_VIEWED;
-        $oRealizationData = $oRealization->getRealizationsInterval($iStartPos, $iEndPos);
-        //*****</wczytywanie informacji z bazy danych (podzial na strony)>****//
-        
-        $i = 0;
-        while(($aRealizations = $oRealizationData->fetch_assoc()) != NULL)
-        {
-            $date = new Date('pl', $aRealizations['date']);
-
-            $view->assign['realizations'] .= "<div class=\"realization\">
-                                                <div class=\"realization-content\">
-                                                    <h1>" . $aRealizations['title'] . "</h1>
-
-                                                    <p>
-                                                        " . $aRealizations['text'] . "
-                                                    </p>
-
-                                                    <p>
-                                                        Użyte technologie: " . $aRealizations['used_technologies'] . "
-                                                    </p>
-
-                                                    <h3>Link: " . ($aRealizations['url'] != '' ? "<a href=\"" . $aRealizations['url'] . "\" target=\"_blank\">" . $aRealizations['url'] . "</a>" : "brak") . "</h3>
-
-                                                    <h4>Data wykonania: " . $date->getDate() . "</h4>
-                                                </div>
-                                                <img src=\"" . UPLOADS_PATH . REALIZATION_IMAGES_PATH . $aRealizations['image'] . "\" alt=\"\" />
-                                            </div>";
-            
-            $i++;
-        }
-        
         //jesli brak realizacji, to komunikat
-        if($i == 0)
+        if($iNumOfRows == 0)
         {
             $page->assign['view-content'] = '<div id="body" style="text-align: center;"><h1>Brak wykonanych realizacji</h1></div>';
         }
@@ -472,12 +443,11 @@
         {
             //paginator
             $oPaginator = new Paginator($iNumOfRows, PORTFOLIO_NUM_OF_REALIZATIONS_VIEWED, $iActualPage, "view=" . $_GET['view']);
-            $view->assign['paginator'] = $oPaginator->generatePaginator();
-            
-            //przekazanie zawartosci widoku do layoutu
-            $page->assign['view-content'] = $view->parse(TEMPLATES_PATH . 'portfolio.html');
+            $oView->assign['paginator'] = $oPaginator->generateJSPaginator('realizations');
         }
         
+        //przekazanie zawartosci widoku do layoutu
+        $page->assign['view-content'] = $oView->parse(TEMPLATES_PATH . 'portfolio.html');
     }
 //    else if($_GET['view'] == 'about')
 //    {

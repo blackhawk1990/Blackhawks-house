@@ -229,9 +229,10 @@ body {
         float: left;
 }
 #body {
+        position: relative;
 	background: url(../images/bg-content.jpg) repeat;
 	margin: 0 auto;
-	min-height: 800px;
+	min-height: 760px;
 	overflow: hidden;
 	padding: 20px 0;
 	width: 960px;
@@ -1063,7 +1064,20 @@ body {
     margin: 20px auto;
 }
 
+#page-options
+{
+    border-top: 2px solid #FFE600;
+}
+
 /****************paginator*********************/
+#paginator-wrapper
+{
+    position: absolute;
+    bottom: 0;
+    height: 26px;
+    margin-bottom: 30px;
+}
+
 #paginator-wrapper ul > li
 {
     float: left;
@@ -1079,7 +1093,8 @@ body {
 
 #paginator-wrapper ul > li.active
 {
-    background: #FFDE00;
+    color: #FFE600;
+    background: #94ACB3;
 }
 
 #paginator-wrapper a

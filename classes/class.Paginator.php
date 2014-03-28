@@ -19,11 +19,11 @@ class Paginator
     }
     
     /**
-     * Creates paginator
+     * Creates PHP version of paginator
      * 
      * @return string Paginator HTML
      */
-    public function generatePaginator()
+    public function generatePHPPaginator()
     {
         $sHTML = '';
         
@@ -44,6 +44,38 @@ class Paginator
         }
         
         $sHTML .= '<li><a href="?' . $this->sActualParams . '&p=' . $iNumOfPages . '">&gt;</a></li>';
+        
+        $this->oTemplate->assign['paginator'] = $sHTML;
+        
+        return $this->oTemplate->parse(INCLUDES_PATH . 'paginator.html');
+    }
+    
+    /**
+     * Creates Javascript version of paginator
+     * 
+     * @return string Paginator HTML
+     */
+    public function generateJSPaginator($sContainerId)
+    {
+        $sHTML = '';
+        
+        $iNumOfPages = ceil($this->iLength / $this->iNumOfPosAtPage);
+        
+        $sHTML .= '<li class="static"><a href="#' . $sContainerId . '" onclick="loadPage(this, \'portfolio_page\', { p : 1 });return false;">&lt;</a></li>';
+        
+        for($i = 0;$i < $iNumOfPages;$i++)
+        {
+            if(($i + 1) == $this->iActualPage)
+            {
+                $sHTML .= '<li class="active"><a href="#' . $sContainerId . '" onclick="loadPage(this, \'portfolio_page\', { p : ' . ($i + 1) . ' });return false;">' . ($i + 1) . '</a></li>';
+            }
+            else
+            {
+                $sHTML .= '<li><a href="#' . $sContainerId . '" onclick="loadPage(this, \'portfolio_page\', { p : ' . ($i + 1) . ' });return false;">' . ($i + 1) . '</a></li>';
+            }
+        }
+        
+        $sHTML .= '<li class="static"><a href="#' . $sContainerId . '" onclick="loadPage(this, \'portfolio_page\', { p : ' . $iNumOfPages . ' });return false;">&gt;</a></li>';
         
         $this->oTemplate->assign['paginator'] = $sHTML;
         
