@@ -13,8 +13,6 @@ function init()
     loadMenuTab($('#admin-menu li:eq(0)').find('a'), menuFirstPosViewName);
     //****************************</init menu tab view>*************************************************//
     
-    var uploadPath = $('#add-realization-form #file-upload-path').val();
-    
     //****************************<admin menu>***************************************************//
     $('#admin-menu li a').live("click", (function(e){
         
@@ -28,6 +26,69 @@ function init()
         
     }));
     //****************************</admin menu>**************************************************//
+    
+    //usuwanie danej realizacji
+    $('#realization-options-table .delete').live("click", function(){
+        
+        var id = $(this).attr('id');
+        
+        $('body').append('<div id="dialog-wrapper" title="Usuwanie realizacji">Czy na pewno chcesz usunąć tą realizację?</div>');
+
+            $('#dialog-wrapper').dialog({
+
+                'modal' : true,
+                'autoOpen' : true,
+                'width' : 500,
+                'buttons': [ { text: "Ok", click: function() {
+                            
+                            $('#dialog-wrapper').remove();
+                            deleteRealization(id);
+                            
+                        }},
+                        { text: "Anuluj", click: function() { $('#dialog-wrapper').remove(); } } ],
+                close : function( event, ui ){
+
+                    $('#dialog-wrapper').remove();
+
+                }
+
+            });
+
+    });
+    
+    //usuwanie elementu menu
+    $('#menu-options-table .delete').live("click", function(){
+        
+        var id = $(this).attr('id');
+        
+        $('body').append('<div id="dialog-wrapper" title="Usuwanie elementu menu">Czy na pewno chcesz usunąć ten element?</div>');
+
+            $('#dialog-wrapper').dialog({
+
+                'modal' : true,
+                'autoOpen' : true,
+                'width' : 500,
+                'buttons': [ { text: "Ok", click: function() {
+                            
+                            $('#dialog-wrapper').remove();
+                            deleteMenuItem(id);
+                            
+                        }},
+                        { text: "Anuluj", click: function() { $('#dialog-wrapper').remove(); } } ],
+                close : function( event, ui ){
+
+                    $('#dialog-wrapper').remove();
+
+                }
+
+            });
+
+    });
+}
+
+function initAddRealizationPage()
+{
+    var uploadPath = $('#add-realization-form #file-upload-path').val();
     
     //kalendarz
     $.datepicker.regional['pl'];
@@ -146,71 +207,13 @@ function init()
         }
         
     });
-    
-    //usuwanie danej realizacji
-    $('#realization-options-table .delete').live("click", function(){
-        
-        var id = $(this).attr('id');
-        
-        $('body').append('<div id="dialog-wrapper" title="Usuwanie realizacji">Czy na pewno chcesz usunąć tą realizację?</div>');
-
-            $('#dialog-wrapper').dialog({
-
-                'modal' : true,
-                'autoOpen' : true,
-                'width' : 500,
-                'buttons': [ { text: "Ok", click: function() {
-                            
-                            $('#dialog-wrapper').remove();
-                            deleteRealization(id);
-                            
-                        }},
-                        { text: "Anuluj", click: function() { $('#dialog-wrapper').remove(); } } ],
-                close : function( event, ui ){
-
-                    $('#dialog-wrapper').remove();
-
-                }
-
-            });
-
-    });
-    
-    //usuwanie elementu menu
-    $('#menu-options-table .delete').live("click", function(){
-        
-        var id = $(this).attr('id');
-        
-        $('body').append('<div id="dialog-wrapper" title="Usuwanie elementu menu">Czy na pewno chcesz usunąć ten element?</div>');
-
-            $('#dialog-wrapper').dialog({
-
-                'modal' : true,
-                'autoOpen' : true,
-                'width' : 500,
-                'buttons': [ { text: "Ok", click: function() {
-                            
-                            $('#dialog-wrapper').remove();
-                            deleteMenuItem(id);
-                            
-                        }},
-                        { text: "Anuluj", click: function() { $('#dialog-wrapper').remove(); } } ],
-                close : function( event, ui ){
-
-                    $('#dialog-wrapper').remove();
-
-                }
-
-            });
-
-    });
 }
 
 function loadMenuTab(clicked, view_name)
 {
     if($($(clicked).attr('href')).find('#error').size() === 0 || $($(clicked).attr('href')).html() === '')
     {
-        $($(clicked).attr('href')).append('<div class="loader-big"><img src="styles/img/loader_big.gif" /></div>');
+        $($(clicked).attr('href')).html('<div class="loader-big"><img src="styles/img/loader_big.gif" /></div>');
         
         $.post("scripts/menuTabLoad.php", { 
             v: view_name
@@ -227,7 +230,6 @@ function loadMenuTab(clicked, view_name)
                     break;
                 default:
                     $($(clicked).attr('href')).html(resp);
-                    init();
                     break;
             }
 
