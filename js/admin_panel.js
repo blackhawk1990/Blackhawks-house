@@ -149,10 +149,12 @@ function initAddRealizationPage()
             var image = response;
             var text = $('#text').val();
             var intro = $('#intro').val();
+            var url = $('#url').val();
             var date = $('#date').val();
             var used_technologies = $('#used-technologies-hidden').val().replace(",", ", ");
             
-            addRealization(title, image, text, intro, date, used_technologies);
+            addRealization({ title : title, image : image, text : text, intro : intro, url : url, 
+                date : date, used_technologies : used_technologies });
         }
     });
     
@@ -166,6 +168,7 @@ function initAddRealizationPage()
         $('#file-error-message').text('');
         $('#text-error-message').text('');
         $('#intro-error-message').text('');
+        $('#url-error-message').text('');
         $('#date-error-message').text('');
         $('#used-technologies-error-message').text('');
         
@@ -237,15 +240,16 @@ function loadMenuTab(clicked, view_name)
     }
 }
 
-function addRealization(title, image, text, intro, date, used_technologies)
+function addRealization(dataToSave)
 {
     $.post("index.php?action=add_realization", { 
-        title: title,
-        image: image,
-        text: text,
-        introduction: intro,
-        date: date,
-        used_technologies: used_technologies
+        title: dataToSave['title'],
+        image: dataToSave['image'],
+        text: dataToSave['text'],
+        introduction: dataToSave['intro'],
+        url: dataToSave['url'],
+        date: dataToSave['date'],
+        used_technologies: dataToSave['used_technologies']
     }, function(resp){
         if(resp)
         {
