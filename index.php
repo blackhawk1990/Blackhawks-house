@@ -36,7 +36,7 @@
     $page->assign['title'] = "Blackhawk's House";
     
 //    $page->assign['copyrights'] = "&copy; Łukasz Traczewski 2011 - 2014, icon by <a href = \"http://linkgilbs.deviantart.com/\" target = \"_blank\">Jake Gilbert</a><a href = \"http://validator.w3.org/check?uri=http%3A%2F%2Fblackhawkshouse.pl%2F\" target = \"_blank\"><img src = \"styles/img/HTML5_logo.png\" alt = \"Logo HTML 5\" /></a><br />Ostatnia aktualizacja: 06-02-2014";
-    $page->assign['copyrights'] = "&copy; Łukasz Traczewski 2011 - 2014, icon by <a href = \"http://linkgilbs.deviantart.com/\" target = \"_blank\">Jake Gilbert</a><br />Ostatnia aktualizacja: 28-03-2014";
+    $page->assign['copyrights'] = "&copy; Łukasz Traczewski 2011 - 2014, icon by <a href = \"http://linkgilbs.deviantart.com/\" target = \"_blank\">Jake Gilbert</a><br />Ostatnia aktualizacja: 03-04-2014";
     
     $view_class = new View();
     
@@ -431,7 +431,8 @@
 
         if(isset($_GET['p']))
         {
-            $iActualPage = $_GET['p'];
+            $oDbHnd = @new mysqli(DB_HOST, DB_LOGIN, DB_PASS, DB_NAME);
+            $iActualPage = mysqli_real_escape_string($oDbHnd, trim($_GET['p']));
         }
         
         //jesli brak realizacji, to komunikat
