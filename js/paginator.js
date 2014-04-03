@@ -1,4 +1,9 @@
+//sciezka do skryptow pobrana z konfiguracji
+var scriptsPath = '';
+
 $(function(){
+   
+   scriptsPath = $('#scripts-path').val();
    
    //****************************<paginator>***************************************************//
     $('#paginator-wrapper li a').live("click", (function(e){
@@ -51,7 +56,7 @@ function loadPage(clicked, view_name, params)
     {
         $($(clicked).attr('href')).html('<div class="loader-big"><img src="styles/img/loader_big.gif" /></div>');
         
-        $.post("scripts/paginatorPageLoad.php", { 
+        $.post(scriptsPath + "paginatorPageLoad.php", { 
             v: view_name,
             p: params['p']
         }, function(resp){

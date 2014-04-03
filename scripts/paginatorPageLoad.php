@@ -22,14 +22,13 @@
             }
 
             $iStartPos = ($iActualPage - 1) * PORTFOLIO_NUM_OF_REALIZATIONS_VIEWED;
-            $iEndPos = $iStartPos + PORTFOLIO_NUM_OF_REALIZATIONS_VIEWED;
-            $oRealizationData = $oRealization->getRealizationsInterval($iStartPos, $iEndPos);
+            $iHowMany = PORTFOLIO_NUM_OF_REALIZATIONS_VIEWED;
+            $oRealizationData = $oRealization->getRealizationsInterval($iStartPos, $iHowMany);
             //*****</wczytywanie informacji z bazy danych (podzial na strony)>****//
 
             while(($aRealizations = $oRealizationData->fetch_assoc()) != NULL)
             {
                 $date = new Date('pl', $aRealizations['date']);
-
                 $oTemplate->assign['realizations'] .= "<div class=\"realization\">
                                                     <div class=\"realization-content\">
                                                         <h1>" . $aRealizations['title'] . "</h1>

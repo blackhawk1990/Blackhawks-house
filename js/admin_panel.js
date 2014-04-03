@@ -1,5 +1,9 @@
+//sciezka do skryptow pobrana z konfiguracji
+var scriptsPath = '';
+
 $(function(){
     
+    scriptsPath = $('#scripts-path').val();
     $('#admin-menu li:eq(0) div').css({'background-color' : '#fff600', 'box-shadow' : '0 0 2px #000000'});
     $('#body .content .admin-option-content').not('.admin-option-content:eq(0)').hide();
     init();
@@ -140,7 +144,7 @@ function initAddRealizationPage()
     //file upload
     $('#file').uploadify({
         'uploader': './js/ui/uploadify/uploadify.swf',
-        'script': './scripts/fileUpload.php',
+        'script': './' + scriptsPath + 'fileUpload.php',
         'cancelImg': './js/ui/uploadify/cancel.png',
         'folder': uploadPath,
         'auto': false,
@@ -222,7 +226,7 @@ function loadMenuTab(clicked, view_name)
     {
         $($(clicked).attr('href')).html('<div class="loader-big"><img src="styles/img/loader_big.gif" /></div>');
         
-        $.post("scripts/menuTabLoad.php", { 
+        $.post(scriptsPath + "menuTabLoad.php", { 
             v: view_name
         }, function(resp){
             
@@ -246,7 +250,8 @@ function loadMenuTab(clicked, view_name)
 
 function addRealization(dataToSave)
 {
-    $.post("index.php?action=add_realization", { 
+    $.post(scriptsPath + "realizationOptions.php", {
+        v: 'add_realization',
         title: dataToSave['title'],
         image: dataToSave['image'],
         text: dataToSave['text'],
@@ -255,7 +260,7 @@ function addRealization(dataToSave)
         date: dataToSave['date'],
         used_technologies: dataToSave['used_technologies']
     }, function(resp){
-        if(resp)
+        if(resp == 1)
         {
             $('body').append('<div id="dialog-wrapper" title="Dodanie realizacji">Pomyślnie dodano realizację!</div>');
 
@@ -273,7 +278,7 @@ function addRealization(dataToSave)
 
             });
         }
-        else if(!resp || resp === '')
+        else if(resp == 0 || resp === '')
         {
             $('body').append('<div id="dialog-wrapper" title="Błąd dodawania realizacji">Nowa realizacja nie została pomyślnie dodana do bazy danych!</div>');
             
@@ -296,10 +301,11 @@ function addRealization(dataToSave)
 
 function deleteRealization(id)
 {
-    $.post("index.php?action=delete_realization", { 
+    $.post(scriptsPath + "realizationOptions.php", {
+        v: 'delete_realization',
         id: id
     }, function(resp){
-        if(resp)
+        if(resp == 1)
         {
             $('body').append('<div id="dialog-wrapper" title="Usuwanie realizacji">Pomyślnie usunięto realizację!</div>');
 
@@ -323,7 +329,7 @@ function deleteRealization(id)
 
             });
         }
-        else if(!resp || resp === '')
+        else if(resp == 0 || resp === '')
         {
             $('body').append('<div id="dialog-wrapper" title="Błąd usuwania realizacji">Realizacja nie została pomyślnie usunięta z bazy danych!</div>');
             
@@ -346,10 +352,11 @@ function deleteRealization(id)
 
 function deleteMenuItem(id)
 {
-    $.post("index.php?action=delete_menu_item", { 
+    $.post(scriptsPath + "menuItemOptions.php", {
+        v: 'delete_menu_item',
         id: id
     }, function(resp){
-        if(resp)
+        if(resp == 1)
         {
             $('body').append('<div id="dialog-wrapper" title="Usuwanie elementu menu">Pomyślnie usunięto element menu!</div>');
 
@@ -373,7 +380,7 @@ function deleteMenuItem(id)
 
             });
         }
-        else if(!resp || resp === '')
+        else if(resp == 0 || resp === '')
         {
             $('body').append('<div id="dialog-wrapper" title="Błąd usuwania elementu menu">Element menu nie został pomyślnie usunięty z bazy danych!</div>');
             

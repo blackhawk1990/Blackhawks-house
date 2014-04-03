@@ -120,53 +120,6 @@
             //wykasowanie wsz informacji o sesji
             session_unset();
         }
-        else if ($_GET['action'] == 'add_realization')
-        {
-            if(!empty($_POST))
-            {
-                $aEscaped = array();
-                $oDbHnd = @new mysqli(DB_HOST, DB_LOGIN, DB_PASS, DB_NAME);
-                foreach($_POST as $key => $value)
-                {
-                    $aEscaped[$key] = mysqli_real_escape_string($oDbHnd, trim($value));
-                }
-                
-                $oDb = new Db();
-                echo $oDb->saveRow($aEscaped);
-                exit();
-            }
-        }
-        else if ($_GET['action'] == 'delete_realization')
-        {
-            if(!empty($_POST))
-            {
-                $oDbHnd = @new mysqli(DB_HOST, DB_LOGIN, DB_PASS, DB_NAME);
-                $iId = mysqli_real_escape_string($oDbHnd, trim($_POST['id']));
-                
-                $oRealization = new Realization();
-                $sRelizationImageName = $oRealization->getRealizationImageName($iId);
-                
-                if(unlink(UPLOADS_PATH . REALIZATION_IMAGES_PATH . $sRelizationImageName))
-                    echo $oRealization->deleteRow($iId);
-                else
-                    echo 0;
-                
-                exit();
-            }
-        }
-        else if ($_GET['action'] == 'delete_menu_item')
-        {
-            if(!empty($_POST))
-            {
-                $oDbHnd = @new mysqli(DB_HOST, DB_LOGIN, DB_PASS, DB_NAME);
-                $iId = mysqli_real_escape_string($oDbHnd, trim($_POST['id']));
-                
-                $oMenu = new Menu();
-                echo $oMenu->deleteRow($iId);
-                
-                exit();
-            }
-        }
     }
     /**akcje**/
     
@@ -423,6 +376,7 @@
         $page->assign['common-head-content'] .= "\n\t" . $view_class->addScriptFile(JS_SCRIPTS_PATH . "portfolio.js");
         
         $oView = new Template();
+        $oView->assign['paginator'] = '';
         
         //*****<wczytywanie informacji z bazy danych (podzial na strony)>*****//
         $oRealization = new Realization();
@@ -440,11 +394,18 @@
         {
             $page->assign['view-content'] = '<div id="body" style="text-align: center;"><h1>Brak wykonanych realizacji</h1></div>';
         }
-        else 
+        else
         {
             //paginator
             $oPaginator = new Paginator($iNumOfRows, PORTFOLIO_NUM_OF_REALIZATIONS_VIEWED, $iActualPage, "view=" . $_GET['view']);
-            $oView->assign['paginator'] = $oPaginator->generateJSPaginator('realizations');
+            if($iNumOfRows > PORTFOLIO_NUM_OF_REALIZATIONS_VIEWED)
+            {
+                $oView->assign['paginator'] = $oPaginator->generateJSPaginator('realizations');
+            }
+            else
+            {
+                $oView->assign['paginator'] = '<div style="display:none">' . $oPaginator->generateJSPaginator('realizations') . '</div>';
+            }
         }
         
         //przekazanie zawartosci widoku do layoutu
@@ -498,6 +459,7 @@
             $page->assign['common-head-content'] .= "\n\t" . $view_class->addScriptFile(JS_SCRIPTS_PATH . "ui/uploadify/jquery.uploadify.v2.1.4.min.js");
             $page->assign['common-head-content'] .= "\n\t" . $view_class->addScriptFile(JS_SCRIPTS_PATH . "admin_panel.js");
             
+            $view->assign['scripts-path'] = SCRIPTS_PATH;
             $view->assign['login'] = $_SESSION['login'];
             
             $page->assign['view-content'] = $view->parse(TEMPLATES_PATH . 'admin.html');

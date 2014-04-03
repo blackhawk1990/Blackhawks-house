@@ -23,12 +23,12 @@ class Realization extends Db
         return $this->query($this->_Hnd, $sQuery);
     }
     
-    public function getRealizationsInterval($iStart, $iEnd)
+    public function getRealizationsInterval($iStart, $iHowMany)
     {
         $sQuery = "SELECT * FROM `" . $this->_sTableName . "`
             ORDER BY `date` DESC
-            LIMIT " . $iStart . "," . $iEnd;
-        
+            LIMIT " . $iStart . "," . $iHowMany;
+
         return $this->query($this->_Hnd, $sQuery);
     }
 

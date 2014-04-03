@@ -46,6 +46,7 @@ class Paginator
         $sHTML .= '<li><a href="?' . $this->sActualParams . '&p=' . $iNumOfPages . '">&gt;</a></li>';
         
         $this->oTemplate->assign['paginator'] = $sHTML;
+        $this->oTemplate->assign['scripts-path'] = SCRIPTS_PATH;
         
         return $this->oTemplate->parse(INCLUDES_PATH . 'paginator.html');
     }
@@ -78,6 +79,7 @@ class Paginator
         $sHTML .= '<li class="static"><a href="#' . $sContainerId . '" onclick="loadPage(this, \'portfolio_page\', { p : ' . $iNumOfPages . ' });return false;">&gt;</a></li>';
         
         $this->oTemplate->assign['paginator'] = $sHTML;
+        $this->oTemplate->assign['scripts-path'] = SCRIPTS_PATH;
         
         return $this->oTemplate->parse(INCLUDES_PATH . 'paginator.html');
     }
