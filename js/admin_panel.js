@@ -1,6 +1,6 @@
 $(function(){
     
-    $('#admin-menu li:eq(0) div').css({ 'background-color' : '#fff600', 'box-shadow' : '0 0 2px #000000' });
+    $('#admin-menu li:eq(0) div').css({'background-color' : '#fff600', 'box-shadow' : '0 0 2px #000000'});
     $('#body .content .admin-option-content').not('.admin-option-content:eq(0)').hide();
     init();
     
@@ -11,7 +11,7 @@ function init()
     //****************************<init menu tab view>***************************************************//
     var menuFirstPosViewName = $('#admin-menu li:eq(0) a').attr('href').substring(1, $('#admin-menu li:eq(0) a').attr('href').indexOf('-wrapper')).replace("-", "_");
     loadMenuTab($('#admin-menu li:eq(0)').find('a'), menuFirstPosViewName);
-    //****************************</init menu tab view>*************************************************//
+    //****************************</init menu tab view>****************************8*********************//
     
     //****************************<admin menu>***************************************************//
     $('#admin-menu li a').live("click", (function(e){
@@ -19,9 +19,9 @@ function init()
         e.preventDefault();
         
         $('#body .content .admin-option-content').hide();
-        $('#admin-menu li div').css({ 'background-color' : '#FFE600', 'box-shadow' : '0 0 2px #97aeb3' });
+        $('#admin-menu li div').css({'background-color' : '#FFE600', 'box-shadow' : '0 0 2px #97aeb3'});
         
-        $(this).parent('li').find('div').css({ 'background-color' : '#fff600', 'box-shadow' : '0 0 2px #000000' });
+        $(this).parent('li').find('div').css({'background-color' : '#fff600', 'box-shadow' : '0 0 2px #000000'});
         $($(this).attr('href')).fadeIn('fast');
         
     }));
@@ -39,13 +39,13 @@ function init()
                 'modal' : true,
                 'autoOpen' : true,
                 'width' : 500,
-                'buttons': [ { text: "Ok", click: function() {
+                'buttons': [ {text: "Ok", click: function() {
                             
                             $('#dialog-wrapper').remove();
                             deleteRealization(id);
                             
                         }},
-                        { text: "Anuluj", click: function() { $('#dialog-wrapper').remove(); } } ],
+                        {text: "Anuluj", click: function() {$('#dialog-wrapper').remove();}} ],
                 close : function( event, ui ){
 
                     $('#dialog-wrapper').remove();
@@ -68,13 +68,13 @@ function init()
                 'modal' : true,
                 'autoOpen' : true,
                 'width' : 500,
-                'buttons': [ { text: "Ok", click: function() {
+                'buttons': [ {text: "Ok", click: function() {
                             
                             $('#dialog-wrapper').remove();
                             deleteMenuItem(id);
                             
                         }},
-                        { text: "Anuluj", click: function() { $('#dialog-wrapper').remove(); } } ],
+                        {text: "Anuluj", click: function() {$('#dialog-wrapper').remove();}} ],
                 close : function( event, ui ){
 
                     $('#dialog-wrapper').remove();
@@ -89,6 +89,10 @@ function init()
 function initAddRealizationPage()
 {
     var uploadPath = $('#add-realization-form #file-upload-path').val();
+    
+    //****************************<CKEDITOR>*************************************************************//
+    CKEDITOR.replace('text');
+    //****************************</CKEDITOR>************************************************************//
     
     //kalendarz
     $.datepicker.regional['pl'];
@@ -153,8 +157,8 @@ function initAddRealizationPage()
             var date = $('#date').val();
             var used_technologies = $('#used-technologies-hidden').val().replace(",", ", ");
             
-            addRealization({ title : title, image : image, text : text, intro : intro, url : url, 
-                date : date, used_technologies : used_technologies });
+            addRealization({title : title, image : image, text : text, intro : intro, url : url, 
+                date : date, used_technologies : used_technologies});
         }
     });
     
@@ -260,7 +264,7 @@ function addRealization(dataToSave)
                 'modal' : true,
                 'autoOpen' : true,
                 'width' : 500,
-                'buttons': [ { text: "Ok", click: function() { $('#dialog-wrapper').remove(); } } ],
+                'buttons': [ {text: "Ok", click: function() {$('#dialog-wrapper').remove();}} ],
                 close : function( event, ui ){
 
                     $('#dialog-wrapper').remove();
@@ -278,7 +282,7 @@ function addRealization(dataToSave)
                 'modal' : true,
                 'autoOpen' : true,
                 'width' : 500,
-                'buttons': [ { text: "Ok", click: function() { $('#dialog-wrapper').remove(); } } ],
+                'buttons': [ {text: "Ok", click: function() {$('#dialog-wrapper').remove();}} ],
                 close : function( event, ui ){
 
                     $('#dialog-wrapper').remove();
@@ -304,12 +308,12 @@ function deleteRealization(id)
                 'modal' : true,
                 'autoOpen' : true,
                 'width' : 500,
-                'buttons': [ { text: "Ok", click: function() {
+                'buttons': [ {text: "Ok", click: function() {
                             
                             $('#dialog-wrapper').remove();
                             location.href = "index.php?view=admin";
                             
-                        } } ],
+                        }} ],
                 close : function( event, ui ){
 
                     $('#dialog-wrapper').remove();
@@ -328,7 +332,7 @@ function deleteRealization(id)
                 'modal' : true,
                 'autoOpen' : true,
                 'width' : 500,
-                'buttons': [ { text: "Ok", click: function() { $('#dialog-wrapper').remove(); } } ],
+                'buttons': [ {text: "Ok", click: function() {$('#dialog-wrapper').remove();}} ],
                 close : function( event, ui ){
 
                     $('#dialog-wrapper').remove();
@@ -354,12 +358,12 @@ function deleteMenuItem(id)
                 'modal' : true,
                 'autoOpen' : true,
                 'width' : 500,
-                'buttons': [ { text: "Ok", click: function() {
+                'buttons': [ {text: "Ok", click: function() {
                             
                             $('#dialog-wrapper').remove();
                             location.href = "index.php?view=admin";
                             
-                        } } ],
+                        }} ],
                 close : function( event, ui ){
 
                     $('#dialog-wrapper').remove();
@@ -378,7 +382,7 @@ function deleteMenuItem(id)
                 'modal' : true,
                 'autoOpen' : true,
                 'width' : 500,
-                'buttons': [ { text: "Ok", click: function() { $('#dialog-wrapper').remove(); } } ],
+                'buttons': [ {text: "Ok", click: function() {$('#dialog-wrapper').remove();}} ],
                 close : function( event, ui ){
 
                     $('#dialog-wrapper').remove();

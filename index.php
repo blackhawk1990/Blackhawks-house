@@ -490,7 +490,7 @@
         else //dla zalogowanego
         {
             $page->assign['common-head-content'] .= "\n\t" . $view_class->addStylesheetFile(STYLES_PATH . "bootstrap-tagmanager.css");
-            
+
             $page->assign['common-head-content'] .= "\n\t" . $view_class->addScriptFile(JS_SCRIPTS_PATH . "ckeditor.js");
             $page->assign['common-head-content'] .= "\n\t" . $view_class->addScriptFile(JS_SCRIPTS_PATH . "ui/bootstrap-tagmanager.js");
             $page->assign['common-head-content'] .= "\n\t" . $view_class->addScriptFile(JS_SCRIPTS_PATH . "ui/uploadify/swfobject.js");
