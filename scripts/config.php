@@ -1,6 +1,6 @@
 <?php
 
-    include '../config/default.php';
+    include '../lib/config/default.php';
     
     /*****************auto loading all classes in classes catalog*********************/
     $sClassesPath = '../' . CLASSES_PATH;

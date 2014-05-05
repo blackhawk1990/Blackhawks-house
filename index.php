@@ -3,7 +3,7 @@
     //wylaczenie ostrzezen w php
     //error_reporting(E_ALL ^ E_WARNING);
     
-    require_once 'config/default.php';
+    require_once 'lib/config/default.php';
 
     /*****************auto loading all classes in classes catalog*********************/
     $oClassesDir = dir(CLASSES_PATH);

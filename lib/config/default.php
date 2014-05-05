@@ -4,15 +4,15 @@
 
 define("PAGE_CHARSET", 'UTF-8');
 define("MAIN_PATH", './');
-define("CLASSES_PATH", 'classes/');
+define("CLASSES_PATH", 'lib/classes/');
 define("STYLES_PATH", 'styles/');
-define("LAYOUTS_PATH", 'layouts/');
+define("LAYOUTS_PATH", 'lib/layouts/');
 define("SCRIPTS_PATH", 'scripts/');
 define("JS_SCRIPTS_PATH", 'js/');
-define("MODELS_PATH", 'models/');
-define("INCLUDES_PATH", 'includes/');
+define("MODELS_PATH", 'lib/models/');
+define("INCLUDES_PATH", 'lib/includes/');
 define("UPLOADS_PATH", 'uploads/');
-define("TEMPLATES_PATH", 'templates/');
+define("TEMPLATES_PATH", 'lib/templates/');
 define("REALIZATION_IMAGES_PATH", 'realization_images/');
 define("DEFAULT_LAYOUT", 'default.html');
 //define("DB_HOST", 'mysql.webio.pl');
