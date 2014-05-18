@@ -19,10 +19,18 @@ define("DEFAULT_LAYOUT", 'default.html');
 //define("DB_NAME", '7770_blhouse');
 //define("DB_LOGIN", '7770_blhouse');
 //define("DB_PASS", 'b@rc3lona');
-define("DB_HOST", 'localhost');
+//define("DB_HOST", 'localhost');
+//define("DB_NAME", 'blackhawk');
+//define("DB_LOGIN", 'root');
+//define("DB_PASS", '');
+define("DB_HOST", 'blhousedb.c3nadpwnteyb.us-west-2.rds.amazonaws.com');
 define("DB_NAME", 'blackhawk');
-define("DB_LOGIN", 'root');
-define("DB_PASS", '');
+define("DB_LOGIN", 'blackhawk90');
+define("DB_PASS", 'luc4sn1d');
+//define("DB_HOST", 'ec2-54-200-17-110.us-west-2.compute.amazonaws.com');
+//define("DB_NAME", 'blackhawk');
+//define("DB_LOGIN", 'root');
+//define("DB_PASS", 'b4rc3l0na');
 define("NUM_OF_REALIZATIONS_VIEWED", 2); //liczba widocznych nowych realizacji na str glownej
 define("PORTFOLIO_NUM_OF_REALIZATIONS_VIEWED", 2); //liczba pozycji na jednej stronie portfolio
 

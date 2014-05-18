@@ -1,13 +1,13 @@
 -- phpMyAdmin SQL Dump
--- version 3.4.5
+-- version 4.1.9
 -- http://www.phpmyadmin.net
 --
--- Host: localhost
--- Generation Time: Feb 06, 2014 at 02:52 PM
--- Server version: 5.5.16
--- PHP Version: 5.3.8
+-- Host: mysql.webio.pl:3306
+-- Generation Time: May 18, 2014 at 05:08 AM
+-- Server version: 5.5.27-log
+-- PHP Version: 5.5.11
 
-SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
 
 
@@ -17,7 +17,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8 */;
 
 --
--- Database: `blackhawk`
+-- Database: `7770_blhouse`
 --
 
 -- --------------------------------------------------------
@@ -32,15 +32,15 @@ CREATE TABLE IF NOT EXISTS `_slider_slides` (
   `content` text NOT NULL,
   `image` varchar(40) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=5 ;
 
 --
 -- Dumping data for table `_slider_slides`
 --
 
 INSERT INTO `_slider_slides` (`id`, `title`, `content`, `image`) VALUES
-(2, 'Test slajdów', 'bla bla bla...', 'banner_photo_2.png'),
-(3, 'Test 2', 'ble ble...', 'banner_photo_1.png');
+(2, 'Strony szyte na miarę', 'Serwisy internetowe spełniające wszystkie Twoje wymagania, <br />wykorzystujące najnowsze technologie takie jak: HTML5, jQuery i CSS3.', 'banner_photo_2.png'),
+(4, 'Profesjonalna obsługa', 'Dopasowanie projektu strony do wymagań klienta <br />i profesjonalna wycena zlecenia.', 'banner_photo_3.png');
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
