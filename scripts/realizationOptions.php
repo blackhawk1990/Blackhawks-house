@@ -28,16 +28,16 @@
             if(isset($_POST['id']))
             {
                 //wylaczenie ostrzezen
-                error_reporting(E_ALL ^ E_WARNING);
+                //error_reporting(E_ALL ^ E_WARNING);
                 
                 $oDbHnd = @new mysqli(DB_HOST, DB_LOGIN, DB_PASS, DB_NAME);
                 $iId = mysqli_real_escape_string($oDbHnd, trim($_POST['id']));
                 
                 $oRealization = new Realization();
                 $sRealizationImageName = $oRealization->getRealizationImageName($iId);
-                $sImagePath = __DIR__ . '/../' . UPLOADS_PATH . REALIZATION_IMAGES_PATH . $sRealizationImageName;
+                $oAmazonS3 = new AmazonS3(AMAZON_KEY, AMAZON_SECRET, AMAZON_BUCKET);
                 
-                if(unlink($sImagePath))
+                if($oAmazonS3->deleteFile($sRealizationImageName))
                     echo $oRealization->deleteRow($iId);
                 else
                     echo 0;
