@@ -25,7 +25,7 @@ define("DB_PASS", 'luc4sn1d');
 //define("DB_PASS", 'b4rc3l0na');
 define("AMAZON_KEY", 'AKIAJNKZKNW6PS6RJY3A');
 define("AMAZON_SECRET", '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');
-define("AMAZON_URL", 'https://blhouse-bucket.s3.amazonaws.com/');
+define("AMAZON_URL", 'https://d22m7fhl41lwnb.cloudfront.net/');
 define("AMAZON_BUCKET", 'blhouse-bucket');
 define("NUM_OF_REALIZATIONS_VIEWED", 2); //liczba widocznych nowych realizacji na str glownej
 define("PORTFOLIO_NUM_OF_REALIZATIONS_VIEWED", 2); //liczba pozycji na jednej stronie portfolio
