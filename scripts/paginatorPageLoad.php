@@ -45,7 +45,7 @@
 
                                                         <h4>Data wykonania: " . $date->getDate() . "</h4>
                                                     </div>
-                                                    <img src=\"" . AMAZON_URL . AMAZON_BUCKET . '/' . $aRealizations['image'] . "\" alt=\"\" />
+                                                    <img src=\"" . AMAZON_URL . $aRealizations['image'] . "\" alt=\"\" />
                                                 </div>";
             }
         }

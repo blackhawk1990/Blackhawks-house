@@ -168,7 +168,7 @@
                                                                     </p>
                                                                     <a href=\"?view=realization&id=" . $news['id']  . "\" class=\"more\">więcej</a>
                                                                 </div>
-                                                                <img src=\"" . AMAZON_URL . AMAZON_BUCKET . '/' . $news['image'] . "\" alt=\"\">
+                                                                <img src=\"" . AMAZON_URL . $news['image'] . "\" alt=\"\">
                                                               </li>";
                     }
                     $i++;
@@ -216,7 +216,7 @@
                                                                 </p>
                                                                 <a href=\"?view=realization&id=" . $news['id']  . "\" class=\"more\">więcej</a>
                                                             </div>
-                                                            <img src=\"" . AMAZON_URL . AMAZON_BUCKET . '/' . $news['image'] . "\" alt=\"\">
+                                                            <img src=\"" . AMAZON_URL . $news['image'] . "\" alt=\"\">
                                                           </li>";
                     }
                     $i++;
@@ -251,7 +251,7 @@
                                                                 </p>
                                                                 <a href=\"?view=realization&id=" . $news['id']  . "\" class=\"more\">więcej</a>
                                                             </div>
-                                                            <img src=\"" . AMAZON_URL . AMAZON_BUCKET . '/' . $news['image'] . "\" alt=\"\">
+                                                            <img src=\"" . AMAZON_URL . $news['image'] . "\" alt=\"\">
                                                           </li>";
                     }
                     $i++;
@@ -321,7 +321,7 @@
                                                                     </p>
                                                                     <a href=\"?view=realization&id=" . $new_realization['id'] . "\" class=\"more\">więcej</a>
                                                                 </div>
-                                                                <img src=\"" . AMAZON_URL . AMAZON_BUCKET . '/' . $new_realization['image'] . "\" alt=\"\">
+                                                                <img src=\"" . AMAZON_URL . $new_realization['image'] . "\" alt=\"\">
                                                               </li>";
             }
             $i++;
@@ -346,7 +346,7 @@
                 $view->assign['realization-text'] = $aRealization['text'];
                 $view->assign['realization-tech'] = $aRealization['used_technologies'];
                 $view->assign['realization-date'] = $oDate->getDate();
-                $view->assign['realization-image'] = AMAZON_URL . AMAZON_BUCKET . '/' . $aRealization['image'];
+                $view->assign['realization-image'] = AMAZON_URL . $aRealization['image'];
                 $view->assign['realization-url'] = $aRealization['url'] != '' ? '<a href="' . $aRealization['url'] . '" target="_blank">' . $aRealization['url'] . '</a>' : 'brak';
                 
                 //dodatkowa tresc ponizej opisu realizacji(nowe realizacje)
