@@ -1,0 +1,3 @@
+RewriteEngine On
+
+RewriteRule ^.*$ templates/errors/404.html [L]

@@ -35,7 +35,7 @@
                 
                 $oRealization = new Realization();
                 $sRealizationImageName = $oRealization->getRealizationImageName($iId);
-                $sImagePath = __DIR__ . '/../' . UPLOADS_PATH . REALIZATION_IMAGES_PATH . $sRealizationImageName;
+                $sImagePath = BASE_PATH . UPLOADS_PATH . REALIZATION_IMAGES_PATH . $sRealizationImageName;
                 
                 if(unlink($sImagePath))
                     echo $oRealization->deleteRow($iId);

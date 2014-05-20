@@ -51,7 +51,7 @@
             $oTemplate->assign['menu_options_list'] = $sMenuItemsList;
         }
 
-        echo $oTemplate->parse(__DIR__ . '/../' . INCLUDES_PATH . $sView . '_view.html');
+        echo $oTemplate->parse(BASE_PATH . INCLUDES_PATH . $sView . '_view.html');
     }
 
 ?>

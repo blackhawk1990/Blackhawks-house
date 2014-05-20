@@ -22,7 +22,7 @@
             move_uploaded_file($tempFile,$targetFile);
         
             $oSimpleImage = new SimpleImage();
-            $sUploadPath = __DIR__ . '/../' . UPLOADS_PATH . REALIZATION_IMAGES_PATH;
+            $sUploadPath = BASE_PATH . UPLOADS_PATH . REALIZATION_IMAGES_PATH;
             $sConvertedFile = $filename . '.png';
 
             $oSimpleImage->load($sUploadPath . $_FILES['Filedata']['name']);

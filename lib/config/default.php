@@ -2,8 +2,21 @@
 
 /*******************MAIN CONFIGURATION FILE************************/
 
+//generating Base Path
+$sProtocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' || $_SERVER['SERVER_PORT'] == 443) ? "https://" : "http://";
+$aRestOfUrl = explode('/', $_SERVER['REQUEST_URI']);
+if(count($aRestOfUrl) > 2)
+{
+    $iLength = count($aRestOfUrl);
+    for($i = 2;$i < $iLength;$i++)
+        unset($aRestOfUrl[$i]);
+}
+$sRestOfUrl = implode('/', $aRestOfUrl) . '/';
+
 define("PAGE_CHARSET", 'UTF-8');
 define("MAIN_PATH", './');
+define("BASE_URL", $sProtocol . $_SERVER['HTTP_HOST'] . $sRestOfUrl);
+define("BASE_PATH", __DIR__ . '/../../');
 define("CLASSES_PATH", 'lib/classes/');
 define("STYLES_PATH", 'styles/');
 define("LAYOUTS_PATH", 'lib/layouts/');
@@ -19,14 +32,14 @@ define("DEFAULT_LAYOUT", 'default.html');
 //define("DB_NAME", '7770_blhouse');
 //define("DB_LOGIN", '7770_blhouse');
 //define("DB_PASS", 'b@rc3lona');
-//define("DB_HOST", 'localhost');
-//define("DB_NAME", 'blackhawk');
-//define("DB_LOGIN", 'root');
-//define("DB_PASS", '');
-define("DB_HOST", 'blhousedb.c3nadpwnteyb.us-west-2.rds.amazonaws.com');
+define("DB_HOST", 'localhost');
 define("DB_NAME", 'blackhawk');
-define("DB_LOGIN", 'blackhawk90');
-define("DB_PASS", 'luc4sn1d');
+define("DB_LOGIN", 'root');
+define("DB_PASS", '');
+//define("DB_HOST", 'blhousedb.c3nadpwnteyb.us-west-2.rds.amazonaws.com');
+//define("DB_NAME", 'blackhawk');
+//define("DB_LOGIN", 'blackhawk90');
+//define("DB_PASS", 'luc4sn1d');
 //define("DB_HOST", 'ec2-54-200-17-110.us-west-2.compute.amazonaws.com');
 //define("DB_NAME", 'blackhawk');
 //define("DB_LOGIN", 'root');
