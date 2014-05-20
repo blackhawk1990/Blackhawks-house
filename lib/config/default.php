@@ -10,6 +10,15 @@ if(count($aRestOfUrl) > 2)
     $iLength = count($aRestOfUrl);
     for($i = 2;$i < $iLength;$i++)
         unset($aRestOfUrl[$i]);
+    
+    $iLength = count($aRestOfUrl);
+    for($i = 0;$i < $iLength;$i++)
+    {
+        if(strripos($aRestOfUrl[$i], '?'))
+        {
+            unset($aRestOfUrl[$i]);
+        }
+    }
 }
 $sRestOfUrl = implode('/', $aRestOfUrl) . '/';
 
