@@ -14,7 +14,7 @@ if(count($aRestOfUrl) > 2)
     $iLength = count($aRestOfUrl);
     for($i = 0;$i < $iLength;$i++)
     {
-        if(strripos($aRestOfUrl[$i], '?'))
+        if(strripos($aRestOfUrl[$i], '?') !== FALSE)
         {
             unset($aRestOfUrl[$i]);
         }
