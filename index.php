@@ -36,7 +36,7 @@
     $page->assign['title'] = "Blackhawk's House";
     
 //    $page->assign['copyrights'] = "&copy; Łukasz Traczewski 2011 - 2014, icon by <a href = \"http://linkgilbs.deviantart.com/\" target = \"_blank\">Jake Gilbert</a><a href = \"http://validator.w3.org/check?uri=http%3A%2F%2Fblackhawkshouse.pl%2F\" target = \"_blank\"><img src = \"styles/img/HTML5_logo.png\" alt = \"Logo HTML 5\" /></a><br />Ostatnia aktualizacja: 06-02-2014";
-    $page->assign['copyrights'] = "&copy; Łukasz Traczewski 2011 - 2014, icon by <a href = \"http://linkgilbs.deviantart.com/\" target = \"_blank\">Jake Gilbert</a><br />Powered by <b>Amazon Web Services</b> &copy;Amazon<br />Ostatnia aktualizacja: 19-05-2014";
+    $page->assign['copyrights'] = "&copy; Łukasz Traczewski 2011 - " . date('Y') . ", icon by <a href = \"http://linkgilbs.deviantart.com/\" target = \"_blank\">Jake Gilbert</a><br />Powered by <b>Amazon Web Services</b> &copy;Amazon<br />Ostatnia aktualizacja: 21-05-2014";
     
     $view_class = new View();
     
@@ -471,6 +471,7 @@
         $page->assign['title'] = "Błąd 404";
         
         $view = new Template();
+        $view->assign['base-url'] = BASE_URL;
         
         $page->assign['view-content'] = $view->parse(TEMPLATES_PATH . '404.html');
     }
