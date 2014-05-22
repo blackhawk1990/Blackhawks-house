@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Description of Menu
+ * Description of Slide
  *
  * @author Łukasz Traczewski
  */
