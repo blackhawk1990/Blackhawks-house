@@ -16,10 +16,10 @@ class Slider
     /**
      * @param string $sDbTableName Db table from which slides data are fetched
      */
-    public function __construct($sDbTableName)
+    public function __construct()
     {
-        $oDb = new Db($sDbTableName);
-        $this->sliderData = $oDb->_query;
+        $oSlide = new Slide();
+        $this->sliderData = $oSlide->getAllSlides();
     }
     
     public function getSlider()

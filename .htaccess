@@ -1,0 +1,3 @@
+RewriteEngine On
+
+RewriteRule script-push scripts/push.php [L]

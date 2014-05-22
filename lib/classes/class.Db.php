@@ -17,7 +17,7 @@
         {
             $this->_table = $table;
             
-            $this -> _Hnd = @new mysqli(DB_HOST, DB_LOGIN, DB_PASS, DB_NAME);
+            $this->_Hnd = @new mysqli(DB_HOST, DB_LOGIN, DB_PASS, DB_NAME);
 
             if(mysqli_connect_error () != NULL)
             {
@@ -27,8 +27,8 @@
             {
                 if(!$bNoQueries)
                 {
-                    @$this -> query ($this -> _Hnd, 'SET NAMES utf8');
-                    @$this -> query ($this -> _Hnd, "
+                    @$this->query($this->_Hnd, 'SET NAMES utf8');
+                    @$this->query($this->_Hnd, "
                         CREATE TABLE IF NOT EXISTS _realizations(`id` INT( 5 ) NOT NULL AUTO_INCREMENT PRIMARY KEY ,
                         `title` VARCHAR( 22 ) NOT NULL ,
                         `text` TEXT NOT NULL ,
@@ -38,45 +38,44 @@
                         `url` VARCHAR ( 60 ),
                         `used_technologies` VARCHAR ( 60 ) NOT NULL
                         ) ENGINE = INNODB DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci");
-                    @$this -> query ($this -> _Hnd, "
+                    @$this->query($this->_Hnd, "
                         CREATE TABLE IF NOT EXISTS _slider_slides(`id` INT PRIMARY KEY AUTO_INCREMENT,
                         `title` VARCHAR(30) NOT NULL, 
                         `content` TEXT NOT NULL,
                         `image` VARCHAR(40) NOT NULL
                         ) ENGINE = INNODB DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci");
-                    @$this -> query ($this -> _Hnd, "
+                    @$this->query($this->_Hnd, "
                         CREATE TABLE IF NOT EXISTS _users(`id` INT PRIMARY KEY AUTO_INCREMENT,
                         `login` VARCHAR(50) NOT NULL, `password` VARCHAR(40) NOT NULL, 
                         `role` ENUM('admin','user','reporter') NOT NULL
                         ) ENGINE = INNODB DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci");
-                    @$this -> query ($this -> _Hnd, "
+                    @$this->query($this->_Hnd, "
                         CREATE TABLE IF NOT EXISTS _config(`id` INT PRIMARY KEY AUTO_INCREMENT,
                         `label` VARCHAR(30) NOT NULL, `value` VARCHAR(20) NOT NULL
                         ) ENGINE = INNODB DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci");
-                    @$this -> query ($this -> _Hnd, "
+                    @$this->query($this->_Hnd, "
                         CREATE TABLE IF NOT EXISTS _main_menu(`id` INT PRIMARY KEY AUTO_INCREMENT,
                         `label` VARCHAR(50) NOT NULL, 
                         `name` VARCHAR(30) NOT NULL,
                         `count` INT(11) DEFAULT 0 NOT NULL
                         ) ENGINE = INNODB DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci");
-
-                    if($this->_table == 'news')
-                    {
-                        $this->_query = @$this->query($this->_Hnd, 'SELECT * FROM ' . $this->_table . ' ORDER BY data DESC, tytul ASC');
-                    }
-                    else
-                    {
-                        $this->_query = @$this->query($this->_Hnd, 'SELECT * FROM ' . $this->_table);
-                    }
+                    @$this->query($this->_Hnd, "
+                        CREATE TABLE IF NOT EXISTS _test_push_sns(`id` INT PRIMARY KEY AUTO_INCREMENT,
+                        `subject` VARCHAR(30) NOT NULL,
+                        `message` TEXT NOT NULL,
+                        `type` INT(2) NOT NULL,
+                        `timestamp` VARCHAR(30) NOT NULL,
+                        `message_id` VARCHAR(50) NOT NULL
+                        ) ENGINE = INNODB DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;");
                 }
             }
         }
         public function  __destruct()
         {
             //db disconnect
-            $this -> _Hnd -> close();
+            $this->_Hnd->close();
             //handler destroy
-            $this -> _Hnd = null;
+            $this->_Hnd = null;
         }
         
         public function saveRow($aData)
@@ -115,7 +114,7 @@
             }
             
             $sQuery .= ")" . $sValuesQueryPart . ");";
-            
+            echo $sQuery;
             return $this->query($this->_Hnd, $sQuery);
         }
         
