@@ -40,10 +40,6 @@ define("REALIZATION_IMAGES_PATH", 'realization_images/');
 define("DEFAULT_LAYOUT", 'default.html');
 define("AMAZON_URL", 'http://i.ltraczewski.tk/');
 define("AMAZON_BUCKET", 'blhouse-bucket');
-define("DB_HOST", 'blhousedb.c3nadpwnteyb.us-west-2.rds.amazonaws.com');
-define("DB_NAME", 'blackhawk');
-define("DB_LOGIN", 'blackhawk90');
-define("DB_PASS", 'luc4sn1d');
 define("NUM_OF_REALIZATIONS_VIEWED", 2); //liczba widocznych nowych realizacji na str glownej
 define("PORTFOLIO_NUM_OF_REALIZATIONS_VIEWED", 2); //liczba pozycji na jednej stronie portfolio
 
