@@ -5,26 +5,6 @@
 
     require_once 'lib/config/default.php';
 
-    /*****************auto loading all classes in classes catalog*********************/
-    $oClassesDir = dir(CLASSES_PATH);
-    while(($sFile = $oClassesDir->read()) != NULL)
-    {
-        if($sFile != '.' && $sFile != '..')
-        {
-            require_once CLASSES_PATH . $sFile;
-        }
-    }
-    
-    /*****************auto loading all models in models catalog*********************/
-    $oModelsDir = dir(MODELS_PATH);
-    while(($sFile = $oModelsDir->read()) != NULL)
-    {
-        if($sFile != '.' && $sFile != '..')
-        {
-            require_once MODELS_PATH . $sFile;
-        }
-    }
-
     $page = new Template();
 
     //ustawianie opcji
@@ -36,7 +16,7 @@
     $page->assign['title'] = "Blackhawk's House";
     
 //    $page->assign['copyrights'] = "&copy; Łukasz Traczewski 2011 - 2014, icon by <a href = \"http://linkgilbs.deviantart.com/\" target = \"_blank\">Jake Gilbert</a><a href = \"http://validator.w3.org/check?uri=http%3A%2F%2Fblackhawkshouse.pl%2F\" target = \"_blank\"><img src = \"styles/img/HTML5_logo.png\" alt = \"Logo HTML 5\" /></a><br />Ostatnia aktualizacja: 06-02-2014";
-    $page->assign['copyrights'] = "&copy; Łukasz Traczewski 2011 - " . date('Y') . ", icon by <a href = \"http://linkgilbs.deviantart.com/\" target = \"_blank\">Jake Gilbert</a><br />Powered by <b>Amazon Web Services</b> &copy;Amazon<br />Ostatnia aktualizacja: 22-05-2014";
+    $page->assign['copyrights'] = "&copy; Łukasz Traczewski 2011 - " . date('Y') . ", icon by <a href = \"http://linkgilbs.deviantart.com/\" target = \"_blank\">Jake Gilbert</a><br />Powered by <b>Amazon Web Services</b> &copy;Amazon<br />Ostatnia aktualizacja: 27-05-2014";
     
     $view_class = new View();
     

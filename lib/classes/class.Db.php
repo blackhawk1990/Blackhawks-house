@@ -51,7 +51,7 @@
                         ) ENGINE = INNODB DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci");
                     @$this->query($this->_Hnd, "
                         CREATE TABLE IF NOT EXISTS _config(`id` INT PRIMARY KEY AUTO_INCREMENT,
-                        `label` VARCHAR(30) NOT NULL, `value` VARCHAR(20) NOT NULL
+                        `label` VARCHAR(30) NOT NULL, `value` VARCHAR(60) NOT NULL
                         ) ENGINE = INNODB DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci");
                     @$this->query($this->_Hnd, "
                         CREATE TABLE IF NOT EXISTS _main_menu(`id` INT PRIMARY KEY AUTO_INCREMENT,
@@ -114,7 +114,7 @@
             }
             
             $sQuery .= ")" . $sValuesQueryPart . ");";
-            echo $sQuery;
+
             return $this->query($this->_Hnd, $sQuery);
         }
         
